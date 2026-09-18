@@ -8,30 +8,68 @@ const prisma = new PrismaClient();
 
 async function main() {
   const seedDevPasswords = process.env.SEED_DEV_PASSWORDS === "true";
-  const devPasswordHash = seedDevPasswords ? await bcrypt.hash("ZexnDev123!", 12) : undefined;
   const center = await prisma.center.upsert({
     where: { slug: "itpark-xorazm" },
     update: {},
     create: { name: "IT Park Xorazm", slug: "itpark-xorazm" },
   });
 
-  const users: Array<{ login: string; fullName: string; role?: Role; isSuperAdmin?: boolean }> = [
-    { login: "superadmin", fullName: "ZEXN Super Admin", isSuperAdmin: true },
-    { login: "admin", fullName: "Markaz Admini", role: Role.CENTER_ADMIN },
-    { login: "teacher", fullName: "Oqituvchi Namuna", role: Role.TEACHER },
-    { login: "student", fullName: "Oquvchi Namuna", role: Role.STUDENT },
+  const users: Array<{
+    login: string;
+    password: string;
+    fullName: string;
+    mustChangePassword: boolean;
+    role?: Role;
+    isSuperAdmin?: boolean;
+  }> = [
+    {
+      login: "superadmin",
+      password: "superadmin",
+      fullName: "ZEXN Super Admin",
+      mustChangePassword: false,
+      isSuperAdmin: true,
+    },
+    {
+      login: "admin",
+      password: "admin",
+      fullName: "Markaz Admini",
+      mustChangePassword: false,
+      role: Role.CENTER_ADMIN,
+    },
+    {
+      login: "teacher",
+      password: "teacher",
+      fullName: "Oqituvchi Namuna",
+      mustChangePassword: false,
+      role: Role.TEACHER,
+    },
+    {
+      login: "student",
+      password: "student",
+      fullName: "Oquvchi Namuna",
+      mustChangePassword: false,
+      role: Role.STUDENT,
+    },
+    {
+      login: "newstudent",
+      password: "temp1234",
+      fullName: "Yangi Oquvchi",
+      mustChangePassword: true,
+      role: Role.STUDENT,
+    },
   ];
 
   for (const u of users) {
+    const passwordHash = seedDevPasswords ? await bcrypt.hash(u.password, 12) : undefined;
     const user = await prisma.user.upsert({
       where: { login: u.login },
-      update: devPasswordHash ? { passwordHash: devPasswordHash, mustChangePassword: false } : {},
+      update: passwordHash ? { passwordHash, mustChangePassword: u.mustChangePassword } : {},
       create: {
         login: u.login,
         fullName: u.fullName,
         isSuperAdmin: u.isSuperAdmin ?? false,
-        mustChangePassword: !devPasswordHash,
-        passwordHash: devPasswordHash,
+        mustChangePassword: seedDevPasswords ? u.mustChangePassword : true,
+        passwordHash,
       },
     });
     if (u.role) {

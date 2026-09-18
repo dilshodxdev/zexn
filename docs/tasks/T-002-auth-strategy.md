@@ -1,6 +1,6 @@
 # T-002 - Auth: strategy pattern, login/parol, JWT, tenant middleware
 
-**Status:** CHANGES_REQUESTED (seed parollari)
+**Status:** DONE
 **Phase:** 2
 **Depends:** -
 **Assignee:** gpt
@@ -86,7 +86,8 @@ ishlaydi. Telegram strategiyasi keyingi task (T-004), lekin `AuthStrategy` inter
 - `requireAuth`, `requireRole` va mavjud `requireTenant` JWT membership bilan ishlaydi; majburiy parol almashtirish 403 beradi.
 - `RefreshToken`: user FK, SHA-256 `tokenHash`, expiry, revoke va yaratilgan vaqt; user o'chsa cascade. Claude `docs/04` ga ko'chiradi.
 - `pnpm --filter @zexn/server prisma:migrate --name auth` - `20260918084707_auth` yaratildi va DB'ga qo'llandi.
-- `SEED_DEV_PASSWORDS=true pnpm --filter @zexn/server db:seed` - 4 ta namuna userga bcrypt dev parol yozildi.
+- Seed va login tekshiruvi o'tdi: `superadmin/superadmin`, `admin/admin`, `teacher/teacher`,
+  `student/student`; `newstudent/temp1234` esa `/api/me` da 403 `PASSWORD_CHANGE_REQUIRED` oldi.
 - `pnpm check` - yashil; typecheck, ESLint, Prettier va invariant tekshiruvi o'tdi.
 - `pnpm --filter @zexn/server test` - 1 fayl, 4 test o'tdi: verify, expire, refresh rotation, revoked refresh.
 - `curl.exe -c cookies.txt ... /api/auth/login`, Bearer bilan `/api/me`, `-b/-c cookies.txt -X POST /api/auth/refresh`, yangi token bilan `/api/me` - student va `itpark-xorazm`, HTTP 200.
@@ -107,3 +108,4 @@ ishlaydi. Telegram strategiyasi keyingi task (T-004), lekin `AuthStrategy` inter
   `.env.example` da `SEED_DEV_PASSWORDS=true` (dev default), izoh: prod'da yo'q.
 - Kichik (majburiy emas, T-006 da): `mustChangePassword` gate `POST /auth/logout` ni ham bloklaydi -
   logout'ga ruxsat berish mantiqan to'g'ri.
+- Claude (2026-09-18): seed tuzatildi (login = parol, newstudent/temp1234), DB qayta seed qilindi. DONE.
