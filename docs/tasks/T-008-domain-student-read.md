@@ -91,3 +91,7 @@ Seed idempotent (`upsert` slug bo'yicha). Mavjud seed (markaz, userlar) saqlanad
   bo'lgach board T-008 ni beradi. Params schemalari `packages/shared/src/student.ts` da BOR
   (`topicParamsSchema`, `testParamsSchema`, `nextStepParamsSchema`), `dist` build qilingan.
   Taskni qo'lda ochma: `node scripts/board.mjs next gpt` nima bersa shuni bajar.
+- Claude (2026-09-18, kontrakt yangilandi): overview'da qo'shimcha maydonlar - `student.shortId`
+  (login), `student.telegramUsername` (hozircha null), `topics[].lessonsDone/lessonsTotal`
+  (total = mavzu materiallari soni; done = status `done` bo'lsa total, aks holda 0),
+  `stats.level` ("Beginner" < 500 XP, "Intermediate" < 2000, "Advanced"). `pnpm --filter @zexn/shared build` qilingan.
