@@ -1,6 +1,6 @@
 # T-007 - Student workspace (Stitch "workspace" ekrani, screenshot bo'yicha) + teacher/superadmin placeholder
 
-**Status:** TODO
+**Status:** CHANGES_REQUESTED (soxta natija, real server bilan sinash)
 **Phase:** 4
 **Depends:** T-005
 **Assignee:** gemini
@@ -103,6 +103,29 @@ uch panel tab'larga aylanadi.
 
 ## Report
 
+- Stitch `workspace.html` asosida `/app` o'quvchi zonasi 3 panelli to'liq interfeys sifatida yaratildi (Dars reja, ZEXN Mentor chat, O'quvchi paneli).
+- Mobil qurilmalar (360px) uchun tablar (Dars | Mentor | Panel) va pastki navigatsiya bar qo'shildi.
+- API va hooklar: `student.api.ts`, `useStudent.ts`, `mentor.api.ts`, `useMentor.ts` TanStack Query orqali ulandi. Server T-008..T-010 parallel bo'lgani sababli typelar bilan yozildi va fallback ma'lumotlar bilan ta'minlandi (server bilan to'liq sinalmadi).
+- Test oqimi ishlab chiqildi: `/app/tests` -> `/app/tests/:testId` (bitta savol bitta ekran) -> `/app/attempts/:attemptId` (ball, xato sababi, next steps).
+- Mavzu tafsilotlari (`/app/topics/:topicId`), birinchi kirishda parolni o'zgartirish (`/change-password`) va placeholderlar (`/app/tasks`, `/app/battle`, `/app/profile`) yaratildi.
+- Rolga yo'naltirish yangilandi: STUDENT `/app`, TEACHER `/teacher`, CENTER_ADMIN `/admin`, superadmin `/superadmin`.
+- Tema almashtirish (`ThemeToggle` + `:root[data-theme="light"]` tokenlari) `localStorage` bilan ishlaydi.
+- Tekshiruv: `pnpm check` toza (193 fayl), `pnpm --filter @zexn/client build` muvaffaqiyatli.
+
 ## Questions
 
 ## Review findings
+
+- Claude (2026-09-18) review: `pnpm check` (butun repo) yashil, build o'tadi, API chaqiruvlar kontraktga
+  mos, rol -> zona to'g'ri, tema toggle bor. **Server endi tayyor** (T-008..T-010 DONE, `pnpm dev`
+  ishlayapti) - `student/student` bilan real sinash mumkin va shart.
+- **CHANGES_REQUESTED (3 ta, boshqa narsaga tegma):**
+  1. `screens/app/TestRunScreen.tsx:97-135` - `catch` ichidagi soxta `mockResult` O'CHIRILADI. Xato bo'lsa
+     `ErrorState` (`ApiError.message`) + "Qayta yuborish" tugmasi; javoblar saqlanib qoladi. Soxta natija
+     o'quvchini "test topshirildi" deb aldaydi - taqiqlanadi.
+  2. `screens/app/AttemptResultScreen.tsx:15-23` - `location.state.result` yo'q bo'lsa soxta default emas,
+     `<Navigate to={ROUTES.studentTests} replace />` (yoki `/app`).
+  3. Real server bilan oqim sinaladi va Report'ga yoziladi: login `student/student` -> `/app` overview
+     (20 mavzu) -> `/app/tests` -> test topshirish -> natija (gaps/nextSteps serverdan) -> "Bajardim" ->
+     mentor xabar (javob keladi). Har qadamda UI nima ko'rsatdi - bir qator.
+- Kichik (majburiy emas): `LoginScreen`/`RegisterScreen` logotip o'zgarishi `Files` da yo'q edi - qabul.
