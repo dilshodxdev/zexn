@@ -20,9 +20,8 @@ const envSchema = z.object({
         .map((o) => o.trim())
         .filter(Boolean),
     ),
-  // 2-bosqich: auth. Hozircha ixtiyoriy, auth moduli ulanganda majburiy qilinadi.
-  JWT_ACCESS_SECRET: z.string().min(16).optional(),
-  JWT_REFRESH_SECRET: z.string().min(16).optional(),
+  JWT_ACCESS_SECRET: z.string().min(32),
+  JWT_REFRESH_SECRET: z.string().min(32),
   TELEGRAM_BOT_TOKEN: z.string().optional(),
 });
 

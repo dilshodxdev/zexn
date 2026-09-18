@@ -1,11 +1,14 @@
 // Dev seed: bitta markaz + super admin + har roldan bittadan foydalanuvchi.
-// Parollar 2-bosqichda (bcrypt) qo'shiladi; hozir passwordHash bo'sh, mustChangePassword = true.
+// SEED_DEV_PASSWORDS=true bo'lsa namuna parol bcrypt bilan yoziladi.
 // Ishga tushirish: pnpm --filter @zexn/server exec prisma db seed
 import { PrismaClient, Role } from "@prisma/client";
+import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
 
 async function main() {
+  const seedDevPasswords = process.env.SEED_DEV_PASSWORDS === "true";
+  const devPasswordHash = seedDevPasswords ? await bcrypt.hash("ZexnDev123!", 12) : undefined;
   const center = await prisma.center.upsert({
     where: { slug: "itpark-xorazm" },
     update: {},
@@ -22,12 +25,13 @@ async function main() {
   for (const u of users) {
     const user = await prisma.user.upsert({
       where: { login: u.login },
-      update: {},
+      update: devPasswordHash ? { passwordHash: devPasswordHash, mustChangePassword: false } : {},
       create: {
         login: u.login,
         fullName: u.fullName,
         isSuperAdmin: u.isSuperAdmin ?? false,
-        mustChangePassword: true,
+        mustChangePassword: !devPasswordHash,
+        passwordHash: devPasswordHash,
       },
     });
     if (u.role) {

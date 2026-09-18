@@ -24,14 +24,20 @@
   "dependencies": {
     "@prisma/client": "^6.10.0",
     "@zexn/shared": "workspace:*",
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^4.21.0",
+    "jsonwebtoken": "^9.0.3",
     "zod": "^3.24.0"
   },
   "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^22.15.0",
     "dotenv-cli": "^11.0.0",
     "prisma": "^6.10.0",

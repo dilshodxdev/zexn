@@ -1,6 +1,6 @@
 # T-002 - Auth: strategy pattern, login/parol, JWT, tenant middleware
 
-**Status:** REVIEW
+**Status:** CHANGES_REQUESTED (seed parollari)
 **Phase:** 2
 **Depends:** -
 **Assignee:** gpt
@@ -95,3 +95,15 @@ ishlaydi. Telegram strategiyasi keyingi task (T-004), lekin `AuthStrategy` inter
 ## Questions
 
 ## Review findings
+
+- Claude (2026-09-18) review: `pnpm check` yashil, `test` 4/4. curl: login, `/me`, refresh rotation,
+  logout -> refresh 401, register (tranzaksiya, dublikat login 409 `path=login`), select-center
+  begona markaz 403, `INVALID_CREDENTIALS` bir xil xabar - hammasi to'g'ri. Middleware: super admin
+  bypass, `PASSWORD_CHANGE_REQUIRED` gate - to'g'ri.
+- **CHANGES_REQUESTED (1 ta):** `apps/server/prisma/seed.ts` - egasi talabi: `SEED_DEV_PASSWORDS=true`
+  bo'lsa har user uchun **login = parol**: `superadmin/superadmin`, `admin/admin`, `teacher/teacher`,
+  `student/student`, hammasi `mustChangePassword=false`; qo'shimcha `newstudent / temp1234`
+  (STUDENT, `mustChangePassword=true`). `ZexnDev123!` olib tashlanadi. Boshqa hech narsaga tegma.
+  `.env.example` da `SEED_DEV_PASSWORDS=true` (dev default), izoh: prod'da yo'q.
+- Kichik (majburiy emas, T-006 da): `mustChangePassword` gate `POST /auth/logout` ni ham bloklaydi -
+  logout'ga ruxsat berish mantiqan to'g'ri.

@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import { API_ERROR_CODES } from "@zexn/shared";
 import { env, isProd } from "./config/env.js";
 import { AppError } from "./lib/AppError.js";
@@ -30,6 +31,9 @@ export function createApp() {
     }),
   );
   app.use(express.json({ limit: "1mb" }));
+  app.use(cookieParser());
+
+  // TODO(rate-limit): public auth endpointlariga production rate limit qo'shish.
 
   app.use("/health", healthRouter);
   app.use("/api", apiRouter);
