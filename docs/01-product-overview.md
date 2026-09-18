@@ -58,3 +58,4 @@ natija o'qituvchi dashboard'ida ko'rsatiladi.
 | 2026-09-18 | Ko'p-AI ish tartibi: Claude orkestrator/reviewer, Codex server, Gemini client | Tez tempda parallel ish; har ijrochi faqat o'z papkasi                              |
 | 2026-09-18 | Tekshiruvchi = `pnpm check` skript, review faqat diff                         | Token tejash; grep 0 tokenda 100% aniq                                              |
 | 2026-09-18 | Testlar faqat kritik joylarda (tenant scope, JWT, analysis)                   | Hackathon tempi; qolgan joyda `pnpm check` yetadi                                   |
+| 2026-09-18 | PWA (o'rnatiladigan) + mobil-first majburiy                                   | Egasi talabi; pilotda o'quvchilar telefondan kiradi                                 |

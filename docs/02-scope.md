@@ -22,6 +22,7 @@
 - Teacher: guruh dashboard (mavzu x zaif o'quvchilar soni, har o'quvchi uchun 1 qadam), test tayinlash.
 - Center admin: o'quvchi/o'qituvchi/guruh CRUD, obuna holati (faqat ko'rsatish).
 - i18n: uz. Vaqt UI'da Asia/Tashkent.
+- **Mobil-first** (360px dan) va **PWA**: o'rnatiladi, app shell offline ochiladi (T-004).
 
 **AI (5-bosqich)**
 
@@ -40,7 +41,7 @@
 - To'lov integratsiyasi, obuna avtomatlashtiruvi.
 - Ota-ona kabineti.
 - AI savol generatsiyasi, insho tekshiruvi.
-- Mobil ilova, PWA, offline, push.
+- Native mobil ilova, push notification, offline test topshirish (PWA app shell BOR).
 - ru tili (struktura tayyor, tarjima keyin).
 - Super admin UI (faqat seed/SQL).
 

@@ -32,7 +32,11 @@ src/stores/<nom>Store.ts            Zustand - faqat client state (sessiya, UI)
 8. Sana/vaqt faqat `formatDateTime` (`@/lib/utils`) orqali.
 9. Auth: token `useAuthStore`, `@/lib/api` interceptor qo'shadi. Komponentda token bilan ishlama.
 10. Yangi kutubxona (UI kit, form lib, ikon) faqat brief ruxsat bersa.
-11. Mobil kenglik (360px) da buzilmasin: `max-w-*`, `flex-wrap`, jadval `overflow-x-auto`.
+11. **Mobil-first.** Avval 360px uchun yoz, keyin `md:`/`lg:` bilan kengaytir. Gorizontal skroll yo'q
+    (jadval `overflow-x-auto` konteynerda). Tugma/havola minimal 44px balandlik. Hover'ga bog'liq
+    harakat yo'q (telefonda hover yo'q): menyu/tooltip bosish bilan ochiladi.
+12. **PWA.** Ilova o'rnatiladi (T-004). Sahifa pastida joylashgan elementlar `pb-safe` (safe-area).
+    `/api` javoblarini SW yoki localStorage'da cache'lama.
 
 ## Tugatish
 
