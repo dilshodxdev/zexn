@@ -18,6 +18,9 @@ export const topicNodeSchema = z.object({
   /** 0..100, to'g'ri javoblar foizi (urinish bo'lmasa null) */
   mastery: z.number().min(0).max(100).nullable(),
   prerequisiteIds: z.array(idSchema),
+  /** Stitch: "1/5" - mavzu ichidagi darslar (materiallar). done bo'lsa hammasi, aks holda 0 (MVP) */
+  lessonsDone: z.number().int(),
+  lessonsTotal: z.number().int(),
 });
 export type TopicNode = z.infer<typeof topicNodeSchema>;
 
@@ -38,6 +41,8 @@ export const nextStepSchema = z.object({
 export type NextStep = z.infer<typeof nextStepSchema>;
 
 export const studentStatsSchema = z.object({
+  /** Stitch: "Beginner" badge */
+  level: z.string(),
   xp: z.number().int(),
   levelXp: z.number().int(),
   streakDays: z.number().int(),
@@ -57,7 +62,14 @@ export const ratingItemSchema = z.object({
 
 /** GET /api/student/overview */
 export const studentOverviewSchema = z.object({
-  student: z.object({ id: idSchema, fullName: z.string(), hasTelegram: z.boolean() }),
+  student: z.object({
+    id: idSchema,
+    fullName: z.string(),
+    /** Stitch: "ID: #STU-0332" - login yoki qisqa id */
+    shortId: z.string(),
+    hasTelegram: z.boolean(),
+    telegramUsername: z.string().nullable(),
+  }),
   course: z.object({
     id: idSchema,
     title: z.string(),
