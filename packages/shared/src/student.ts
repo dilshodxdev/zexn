@@ -168,7 +168,8 @@ export const mentorMessageSchema = z.object({
 export type MentorMessage = z.infer<typeof mentorMessageSchema>;
 
 export const sendMentorMessageBodySchema = z.object({
-  text: z.string().trim().min(1).max(2000),
+  /** Oddiy xabar yoki kod (```lang ... ``` blok). Kod uchun limit kattaroq. */
+  text: z.string().trim().min(1).max(8000),
 });
 export type SendMentorMessageBody = z.infer<typeof sendMentorMessageBodySchema>;
 
