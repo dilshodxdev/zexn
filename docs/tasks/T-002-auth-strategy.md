@@ -16,14 +16,15 @@ ishlaydi. Telegram strategiyasi keyingi task (T-004), lekin `AuthStrategy` inter
 - `apps/server/src/modules/health/*` (namuna), `middleware/auth.ts`, `middleware/tenant.ts`,
   `types/express.d.ts`, `config/env.ts`, `lib/AppError.ts`, `lib/prisma.ts`
 - `apps/server/prisma/schema.prisma`
-- `packages/shared/src/auth.ts` (Claude qo'shadi, T-002 boshlanishidan oldin)
+- `packages/shared/src/auth.ts` (TAYYOR - kontrakt shu yerda)
 - `docs/05-api.md` (2-bosqich jadvali)
 
 ## Contract
 
-`@zexn/shared`: `loginBodySchema`, `changePasswordBodySchema`, `selectCenterBodySchema`,
-`authResponseSchema`, `meResponseSchema`, `API_ERROR_CODES.{UNAUTHORIZED, TOKEN_EXPIRED,
-INVALID_CREDENTIALS, FORBIDDEN, TENANT_REQUIRED}`. Claude qo'shadi: `packages/shared/src/auth.ts`.
+`@zexn/shared` (tayyor): `registerCenterBodySchema`, `loginBodySchema`, `changePasswordBodySchema`,
+`selectCenterBodySchema`, `authResponseSchema`, `meResponseSchema`, `userSummarySchema`,
+`membershipSummarySchema`, `accessTokenPayloadSchema`, `API_ERROR_CODES`. Javoblar aynan
+`authResponseSchema` shaklida (client `parse` qiladi).
 
 ## Files
 
@@ -42,7 +43,11 @@ INVALID_CREDENTIALS, FORBIDDEN, TENANT_REQUIRED}`. Claude qo'shadi: `packages/sh
 
 ## Requirements
 
-1. `POST /api/auth/login` `{ login, password }` -> `{ accessToken, user, memberships, mustChangePassword }`
+0. `POST /api/auth/register` (`registerCenterBodySchema`) - bitta tranzaksiyada: `Center` (slug
+   nomdan: lotin, kichik, `-`; band bo'lsa `-2`, `-3`), `User` (bcrypt, `mustChangePassword=false`),
+   `Membership(CENTER_ADMIN)`. Login band -> 409 `VALIDATION_ERROR` (`meta.issues[0].path="login"`).
+   Javob login bilan bir xil (`authResponseSchema`, `currentMembership` avtomatik).
+1. `POST /api/auth/login` `{ login, password }` -> `authResponseSchema`
    - refresh httpOnly cookie (`Secure` prod'da, `SameSite=Lax`, path `/api/auth`).
      Noto'g'ri login/parol yoki `passwordHash` null -> 401 `INVALID_CREDENTIALS` (bir xil xabar).
      `Center.isActive=false` bo'lgan membership javobga kirmaydi.

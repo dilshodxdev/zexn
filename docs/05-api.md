@@ -65,6 +65,12 @@ Monitoring `db` maydoniga qaraydi.
 | POST   | `/api/auth/select-center`       | *      | membership tanlash -> yangi access (centerId bilan)                            |
 | GET    | `/api/me`                       | *      | joriy user + membership                                                        |
 
+## Admin (T-006, rol CA, hammasi tenant ichida)
+
+`packages/shared/src/admin.ts` kontrakt. Endpoint jadvali: `docs/tasks/T-006-admin-module.md`.
+`GET/POST /api/admin/users`, `PATCH /api/admin/users/:userId`, `GET/POST /api/admin/groups`,
+`PATCH /api/admin/groups/:groupId`, `POST/DELETE .../students`, `GET /api/admin/overview`.
+
 ## 3-4 bosqich (reja)
 
 Modullar: `groups`, `subjects`, `topics`, `tests`, `attempts`, `gaps`, `next-steps`, `dashboard`.

@@ -59,3 +59,5 @@ natija o'qituvchi dashboard'ida ko'rsatiladi.
 | 2026-09-18 | Tekshiruvchi = `pnpm check` skript, review faqat diff                         | Token tejash; grep 0 tokenda 100% aniq                                              |
 | 2026-09-18 | Testlar faqat kritik joylarda (tenant scope, JWT, analysis)                   | Hackathon tempi; qolgan joyda `pnpm check` yetadi                                   |
 | 2026-09-18 | PWA (o'rnatiladigan) + mobil-first majburiy                                   | Egasi talabi; pilotda o'quvchilar telefondan kiradi                                 |
+| 2026-09-18 | Register = markaz ro'yxatdan o'tadi, birinchi CENTER_ADMIN                    | SaaS uchun tabiiy; o'quvchini admin yaratadi                                        |
+| 2026-09-18 | Admin UI `apps/client` ichida alohida papkalarda, GPT bajaradi                | Bitta kit, bitta deploy; papka chegarasi to'qnashuvni oldini oladi                  |

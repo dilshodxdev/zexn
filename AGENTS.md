@@ -12,6 +12,7 @@ Bu fayl **faqat** AI lar (va odamlar) qanday ishlashini belgilaydi. Loyiha konte
 | Claude                    | **Orkestrator + reviewer** | Reja, brieflar (`docs/tasks/`), `packages/shared` (kontrakt), diff review, git (egasi nomidan). Ilova kodini yozmaydi. |
 | Codex                     | **Server ijrochisi**       | `apps/server` ichida bitta brief. `apps/server/AGENTS.md` ni o'qiydi.                                                  |
 | Gemini (Antigravity)      | **Client ijrochisi**       | `apps/client` ichida bitta brief. `apps/client/AGENTS.md` ni o'qiydi.                                                  |
+| GPT (Codex/ChatGPT)       | **Admin ijrochisi**        | T-006: `apps/server/src/modules/admin` + `apps/client` admin papkalari. Ikkala `AGENTS.md` ni o'qiydi.                 |
 | DeepSeek, Kimi, boshqalar | Mayda ijrochi              | Izolyatsiyalangan ish: seed ma'lumot, i18n, hujjat. `docs/agent-log/AGENT_RULES.md` beriladi.                          |
 
 ## 2. Kod yozishdan oldin o'qi (faqat shu, boshqa hech narsa)

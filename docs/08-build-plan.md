@@ -41,7 +41,11 @@ bog'lash real bot bilan sinaladi.
 
 Qabul: seed'dagi test topshirilganda gap'lar kutilgan mavzularga chiqadi (unit test).
 
-## Bosqich 4 - Frontend `[ ]`
+## Bosqich 4 - Frontend `[~]`
+
+Tasklar: T-003 kit (gemini, IN_PROGRESS), T-004 PWA (gemini), T-005 landing/login/register (gemini),
+T-006 admin server+client (gpt). Keyin: T-007 student workspace, T-008 Telegram, teacher dashboard.
+Register = markaz ro'yxatdan o'tadi (2026-09-18 qarori).
 
 - Student: test topshirish, bilim xaritasi, keyingi qadam.
 - Teacher: guruh dashboard, test tayinlash.
