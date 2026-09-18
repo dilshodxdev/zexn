@@ -34,6 +34,7 @@ To'liq: [02-scope.md](02-scope.md).
 | [05-api.md](05-api.md)                           | Endpointlar, xato formati                         | 1-bosqich qismi  |
 | 06-design-system.md                              | Ranglar, shriftlar, komponentlar                  | 4-bosqichda      |
 | 07-screens.md                                    | Ekranma-ekran holatlar                            | 4-bosqichda      |
+| [design/stitch/](design/stitch/)                 | Stitch dizayn eksporti (T-003 manbasi)            | 4-bosqich        |
 | [08-build-plan.md](08-build-plan.md)             | Bosqichlar, joriy holat, qabul mezonlari          | doim yangilanadi |
 | DEPLOY.md                                        | VPS runbook                                       | 6-bosqichda      |
 | [tasks/](tasks/)                                 | Task brieflar `T-XXX-<slug>.md`                   | doim             |
