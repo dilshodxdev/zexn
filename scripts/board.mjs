@@ -13,7 +13,7 @@ import {
   writeFileSync,
 } from "node:fs";
 import { join } from "node:path";
-import { spawn } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 
 const ROOT = process.cwd();
 const TASKS_DIR = join(ROOT, "docs", "tasks");
@@ -149,6 +149,57 @@ function table(all) {
   }
 }
 
+function runAgent(agent, task) {
+  const p = prompt(agent, task);
+  const runsDir = join(ROOT, "docs", "agent-log", "runs");
+  mkdirSync(runsDir, { recursive: true });
+  const stamp = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
+  const logFile = join(runsDir, `${task.id}-${agent}-${stamp}.log`);
+  const lastFile = join(runsDir, `${task.id}-${agent}-last.md`);
+  // Prompt stdin orqali: Windows shell argumentida ko'p qatorli matn buziladi
+  const promptFile = join(runsDir, `${task.id}-${agent}-prompt.txt`);
+  writeFileSync(promptFile, p);
+  const args =
+    agent === "gemini"
+      ? ["--yolo"]
+      : [
+          "exec",
+          "-C",
+          ROOT,
+          "-s",
+          "workspace-write",
+          "-c",
+          "sandbox_workspace_write.network_access=true",
+          "-o",
+          lastFile,
+        ];
+  console.log(`${agent} ishga tushdi: ${task.id}. Log: ${logFile}
+`);
+  setStatus(task.id, "IN_PROGRESS", `${agent} CLI`);
+  return new Promise((resolve) => {
+    const child = spawn(agent, args, {
+      cwd: ROOT,
+      shell: true,
+      stdio: [openSync(promptFile, "r"), "pipe", "pipe"],
+    });
+    const out = createWriteStream(logFile);
+    for (const stream of [child.stdout, child.stderr]) {
+      stream.on("data", (chunk) => {
+        out.write(chunk);
+        process.stdout.write(chunk);
+      });
+    }
+    child.on("close", (code) => {
+      out.end(`
+[exit ${code}]
+`);
+      console.log(`
+${agent} tugadi (exit ${code}): ${task.id}`);
+      resolve(code ?? 1);
+    });
+  });
+}
+
 const [cmd = "list", arg1, arg2, ...rest] = process.argv.slice(2);
 const all = loadTasks();
 
@@ -170,60 +221,34 @@ switch (cmd) {
     setStatus(arg1, arg2, rest.join(" "));
     break;
   case "run": {
-    // CLI orqali ijrochini ishga tushiradi; log docs/agent-log/runs/ (lokal) ga yoziladi.
-    //   codex  -> codex exec, sandbox workspace-write + tarmoq (pnpm install uchun)
-    //   gemini -> gemini -p ... --yolo (@google/gemini-cli o'rnatilgan bo'lsa)
+    // pnpm board run codex [--chain]   (gemini: @google/gemini-cli bo'lsa)
+    // --chain: task REVIEW ga chiqsa va `pnpm check` yashil bo'lsa avtomatik DONE (izoh: auto) va
+    // keyingi tayyor task boshlanadi. Claude keyin barchasini bir yo'la review qiladi.
     const agent = arg1 === "gemini" ? "gemini" : "codex";
-    const task =
-      agent === "gemini"
-        ? currentFor("gemini", all)
-        : currentFor("codex", all) || currentFor("gpt", all);
-    if (!task || task.status === "BLOCKED") {
-      console.log(prompt(agent, task));
-      break;
-    }
-    const p = prompt(agent, task);
-    const runsDir = join(ROOT, "docs", "agent-log", "runs");
-    mkdirSync(runsDir, { recursive: true });
-    const stamp = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
-    const logFile = join(runsDir, `${task.id}-${agent}-${stamp}.log`);
-    const lastFile = join(runsDir, `${task.id}-${agent}-last.md`);
-    // Prompt stdin orqali: Windows shell argumentida ko'p qatorli matn buziladi
-    const promptFile = join(runsDir, `${task.id}-${agent}-prompt.txt`);
-    writeFileSync(promptFile, p);
-    const args =
-      agent === "gemini"
-        ? ["--yolo"]
-        : [
-            "exec",
-            "-C",
-            ROOT,
-            "-s",
-            "workspace-write",
-            "-c",
-            "sandbox_workspace_write.network_access=true",
-            "-o",
-            lastFile,
-          ];
-    console.log(`${agent} ishga tushdi: ${task.id}. Log: ${logFile}\n`);
-    setStatus(task.id, "IN_PROGRESS", `${agent} CLI`);
-    const child = spawn(agent, args, {
-      cwd: ROOT,
-      shell: true,
-      stdio: [openSync(promptFile, "r"), "pipe", "pipe"],
-    });
-    const out = createWriteStream(logFile);
-    for (const stream of [child.stdout, child.stderr]) {
-      stream.on("data", (chunk) => {
-        out.write(chunk);
-        process.stdout.write(chunk);
-      });
-    }
-    child.on("close", (code) => {
-      out.end(`\n[exit ${code}]\n`);
-      console.log(`\n${agent} tugadi (exit ${code}). Holat: pnpm board`);
-      process.exit(code ?? 1);
-    });
+    const chain = [arg2, ...rest].includes("--chain");
+    const loop = async () => {
+      for (;;) {
+        const tasks = loadTasks();
+        const task =
+          agent === "gemini"
+            ? currentFor("gemini", tasks)
+            : currentFor("codex", tasks) || currentFor("gpt", tasks);
+        if (!task || task.status === "BLOCKED") {
+          console.log(prompt(agent, task));
+          return;
+        }
+        const code = await runAgent(agent, task);
+        const after = loadTasks().find((t) => t.id === task.id);
+        if (!chain || code !== 0 || after?.status !== "REVIEW") return;
+        const check = spawnSync("pnpm", ["check"], { cwd: ROOT, shell: true, stdio: "inherit" });
+        if (check.status !== 0) {
+          setStatus(task.id, "CHANGES_REQUESTED", "auto: pnpm check qizil");
+          return;
+        }
+        setStatus(task.id, "DONE", "auto: pnpm check yashil, Claude review kutilmoqda");
+      }
+    };
+    loop().then(() => process.exit(0));
     break;
   }
   default:
