@@ -37,3 +37,8 @@ Router `src/modules/index.ts` ga ulanadi: `apiRouter.use("/<nom>", <nom>Router)`
 - `pnpm check:server` yashil (client xatosi senga tegishli emas).
 - Endpointni curl bilan sinab, buyruq + javobni `Report` ga.
 - Task faylida `Status: REVIEW`, `Report`, kerak bo'lsa `Questions`.
+
+## Dev seed demo hisoblar (curl sinovlari uchun; `SEED_DEV_PASSWORDS=true`)
+
+`student/student`, `teacher/teacher`, `admin/admin`, `superadmin/superadmin`, `newstudent/temp1234` (parol almashtirish oqimi).
+Token: `POST /api/auth/login {"login":"student","password":"student"}` -> `accessToken`.

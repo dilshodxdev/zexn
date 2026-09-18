@@ -33,9 +33,16 @@ export interface NextStepSuggestion {
   instruction: string;
 }
 
+export interface ChatInput {
+  system: string;
+  history: Array<{ role: "student" | "mentor"; text: string }>;
+  message: string;
+}
+
 export interface AiProvider {
   /** Provayder nomi (log va debug uchun) */
   readonly name: string;
   explainRootCause(input: RootCauseInput): Promise<RootCauseExplanation>;
   suggestNextStep(input: NextStepInput): Promise<NextStepSuggestion>;
+  chat(input: ChatInput): Promise<string>;
 }

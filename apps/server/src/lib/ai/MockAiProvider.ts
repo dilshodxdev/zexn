@@ -1,5 +1,6 @@
 import type {
   AiProvider,
+  ChatInput,
   NextStepInput,
   NextStepSuggestion,
   RootCauseExplanation,
@@ -30,5 +31,28 @@ export class MockAiProvider implements AiProvider {
       materialId: material.id,
       instruction: `"${material.title}" materialini o'rganib, "${input.topic}" bo'yicha 5 ta mashq bajaring.`,
     };
+  }
+
+  async chat(input: ChatInput): Promise<string> {
+    const message = input.message.toLocaleLowerCase("uz");
+    const topicLines = input.system
+      .split("\n")
+      .filter((line) => line.startsWith("- "))
+      .map((line) => line.slice(2).split(" | "));
+
+    for (const [topic, material, url] of topicLines) {
+      if (topic && message.includes(topic.toLocaleLowerCase("uz"))) {
+        if (material && url) return `"${material}" materialini o'rganing: ${url}`;
+        if (material) return `"${material}" materialini o'rganing.`;
+        return `"${topic}" mavzusini takrorlang.`;
+      }
+    }
+
+    const nextStepPrefix = "Joriy keyingi qadam: ";
+    const nextStep = input.system
+      .split("\n")
+      .find((line) => line.startsWith(nextStepPrefix))
+      ?.slice(nextStepPrefix.length);
+    return nextStep ?? "Hozircha keyingi qadam belgilanmagan.";
   }
 }

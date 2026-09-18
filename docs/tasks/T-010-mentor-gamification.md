@@ -1,6 +1,6 @@
 # T-010 - AI Mentor chat + next-step done + reyting (server)
 
-**Status:** TODO
+**Status:** DONE
 **Phase:** 5
 **Depends:** T-009
 **Assignee:** gpt
@@ -46,6 +46,18 @@ o'quvchining joriy `nextStep` va `weak` mavzularini biladi. `POST /api/student/n
 
 ## Report
 
+- `AiProvider.chat` va deterministik `MockAiProvider.chat` qo'shildi.
+- Mentor POST oqimi system prompt, oxirgi 10 xabar va saqlanadigan fallback bilan bajarildi.
+- Mentor GET oqimi eng yangi 50 tagacha xabarni xronologik tartibda qaytaradi.
+- Next-step done faqat o'quvchining pending qadami uchun ishlaydi va 20 XP qo'shadi.
+- In-memory rate limit bir o'quvchiga daqiqasiga 10 xabar qilib qo'yildi.
+- `pnpm check` yashil: typecheck, eslint, prettier va invariant tekshiruvlari o'tdi.
+- `curl GET /api/student/mentor/messages?limit=50` natijasi `401 UNAUTHORIZED`; authenticated ssenariy uchun credential yo'q.
+
 ## Questions
 
+- Ikki xabar, tarix, next-step done va AI fallback curl sinovlari uchun STUDENT Bearer token yoki seed login/parol bera olasizmi?
+
 ## Review findings
+
+- Claude (2026-09-18) review: curl - mentor POST x2 (mock mavzuga qarab material), GET tarix 4, next-step done +20 XP, 11-xabar 429. Demo parollar endi `apps/server/AGENTS.md` da. DONE.
