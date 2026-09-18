@@ -2,7 +2,7 @@
 
 **Status:** TODO
 **Phase:** 4
-**Depends:** T-002, T-005
+**Depends:** T-002, T-005, T-010
 **Assignee:** gpt
 **Branch:** feat/admin-module
 
