@@ -45,5 +45,13 @@
     "emptyDesc": "Sizda hozircha hech qanday faol topshiriq yo'q",
     "createTask": "Yangi topshiriq",
     "errorMessage": "Tarmoq bilan aloqa uzildi"
+  },
+  "placeholder": {
+    "comingSoon": "Tez kunda",
+    "appTitle": "O'quv maydoni",
+    "appDesc": "O'quvchi va o'qituvchi ishchi maydoni (T-007 topshirig'ida yaratiladi)",
+    "adminTitle": "Admin boshqaruvi",
+    "adminDesc": "O'quv markazi ma'muri boshqaruv paneli (T-006 topshirig'ida yaratiladi)",
+    "logout": "Chiqish"
   }
 }

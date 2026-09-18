@@ -226,7 +226,6 @@ switch (cmd) {
     });
     break;
   }
-  // eslint-disable-next-line no-fallthrough
   default:
     console.log(
       "Buyruqlar: list | next <agent> | prompt <agent> | set <T-XXX> <STATUS> [izoh] | run codex|gemini",
