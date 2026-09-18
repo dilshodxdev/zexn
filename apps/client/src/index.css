@@ -47,3 +47,43 @@ body,
 body {
   @apply bg-bg text-text antialiased;
 }
+
+/* Glass node card styling for slide layout */
+.glass-node-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 8px 32px 0 rgba(0, 0, 0, 0.4),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+/* 3D Glossy Sphere and Orbit */
+.obsidian-sphere {
+  background: radial-gradient(
+    circle at 35% 30%,
+    rgba(255, 255, 255, 0.28) 0%,
+    rgba(45, 48, 52, 0.85) 30%,
+    rgba(18, 20, 22, 0.96) 65%,
+    rgba(10, 11, 12, 1) 100%
+  );
+  box-shadow:
+    inset -14px -14px 30px rgba(0, 0, 0, 0.95),
+    inset 6px 6px 18px rgba(255, 255, 255, 0.22),
+    0 25px 50px -12px rgba(0, 0, 0, 0.8),
+    0 0 45px -10px rgba(217, 249, 68, 0.25);
+}
+
+.sphere-asterisk-glow {
+  text-shadow:
+    0 0 20px rgba(217, 249, 68, 0.9),
+    0 0 40px rgba(217, 249, 68, 0.5);
+}
+
+.orbit-ring {
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  border-top-color: rgba(217, 249, 68, 0.6);
+  border-radius: 9999px;
+  transform: rotate(-25deg) scaleY(0.45);
+}

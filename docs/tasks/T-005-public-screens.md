@@ -1,6 +1,6 @@
 # T-005 - Landing, Login, Register ekranlari + auth oqimi (client)
 
-**Status:** REVIEW
+**Status:** DONE
 **Phase:** 4
 **Depends:** T-003
 **Assignee:** gemini
@@ -91,3 +91,9 @@ so'rovni qaytaradi.
 ## Questions
 
 ## Review findings
+
+- Claude (2026-09-18) review: `pnpm check` yashil, build o'tadi. `api.ts` refresh interceptor bir
+  martalik va parallel so'rovlarda bitta refresh (`refreshPromise`); `RequireAuth` rol -> zona;
+  token faqat xotirada; `main.tsx` sessiya tiklash. Server bilan: `student/student` login ishladi
+  (server ishlamagan paytdagi "500" Vite proxy xatosi edi). DONE. Egasi brauzerda ko'radi;
+  topilmalar T-007 bilan birga.

@@ -1,9 +1,30 @@
 {
   "header": {
+    "brand": "@ZEXN",
+    "meta1Title": "ZEXN AI",
+    "meta1Sub": "Shaxsiy ta'lim",
+    "meta2Title": "Biznes taklif",
+    "meta2Sub": "Taqdimot",
+    "year": "2026",
     "login": "Kirish",
     "start": "Boshlash"
   },
   "hero": {
+    "brandName": "ZEXN",
+    "brandDot": ".ai",
+    "headline": "Har bir o'quvchining bilimdagi bo'shliqlarini aniqlab, unga mos keyingi qadamni avtomatik belgilaydigan AI platforma.",
+    "stat1Num": "30",
+    "stat1LabelLine1": "o'quvchi",
+    "stat1LabelLine2": "bitta sinf",
+    "stat2Num": "1",
+    "stat2LabelLine1": "shaxsiy",
+    "stat2LabelLine2": "yo'l",
+    "bannerPill": "AI Learning Platform",
+    "bannerTitleLine1": "Bir sinf.",
+    "bannerTitleLine2": "O'ttiz xil yo'l.",
+    "bannerTitle": "Bir sinf. O'ttiz xil yo'l.",
+    "bannerDesc": "ZEXN xatoning sababini topadi va aynan shuni tuzatadigan keyingi qadamni beradi.",
+    "bannerPilot": "Birinchi pilot: IT Park Shovot",
     "title": "Bir sinf. O'ttiz xil yo'l.",
     "subtitle": "ZEXN har o'quvchining xatosi ildizini topadi va aynan shuni tuzatadigan keyingi qadamni beradi.",
     "ctaPrimary": "Hoziroq boshlash",
@@ -64,6 +85,6 @@
     "button": "Ro'yxatdan o'tish"
   },
   "footer": {
-    "copyright": "ZEXN - IT Park Xorazm piloti"
+    "copyright": "Zexn.ai | dilshodxdev"
   }
 }

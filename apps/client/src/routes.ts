@@ -4,11 +4,13 @@
  */
 export const ROUTES = {
   home: "/",
-  ...(import.meta.env.DEV
-    ? {
-        dev: {
-          uiKit: "/dev/ui",
-        },
-      }
-    : {}),
+  login: "/login",
+  register: "/register",
+  selectCenter: "/select-center",
+  app: "/app",
+  admin: "/admin",
+  dev: {
+    health: "/dev/health",
+    uiKit: "/dev/ui",
+  },
 } as const;
