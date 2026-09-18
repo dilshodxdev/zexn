@@ -34,6 +34,6 @@ Router `src/modules/index.ts` ga ulanadi: `apiRouter.use("/<nom>", <nom>Router)`
 
 ## Tugatish
 
-- `pnpm check` yashil.
+- `pnpm check:server` yashil (client xatosi senga tegishli emas).
 - Endpointni curl bilan sinab, buyruq + javobni `Report` ga.
 - Task faylida `Status: REVIEW`, `Report`, kerak bo'lsa `Questions`.

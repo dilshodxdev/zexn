@@ -1,7 +1,7 @@
 // Arxitektura invariantlarini grep bilan tekshiradi. Token sarflamaydi, har brief oxirida majburiy.
 // Ishga tushirish: node scripts/check-invariants.mjs (yoki pnpm check ichida)
 import { readdirSync, readFileSync, statSync } from "node:fs";
-import { join, relative } from "node:path";
+import { join, relative, sep } from "node:path";
 
 const ROOT = process.cwd();
 const SKIP_DIRS = new Set(["node_modules", "dist", ".git", "migrations", "hujjatlar"]);
@@ -84,7 +84,18 @@ function walk(dir, out) {
   return out;
 }
 
-const files = walk(ROOT, []);
+// --scope server|client: faqat shu zonaning fayllari (parallel ishlayotgan boshqa agent xatosi bizni to'xtatmasin)
+const scopeArg = process.argv.find((a) => a.startsWith("--scope"));
+const scope = scopeArg
+  ? (scopeArg.split("=")[1] ?? process.argv[process.argv.indexOf(scopeArg) + 1])
+  : null;
+const inScope = (rel) => {
+  if (!scope) return true;
+  if (rel.startsWith("apps" + sep + "client")) return scope === "client";
+  if (rel.startsWith("apps" + sep + "server")) return scope === "server";
+  return true; // umumiy fayllar (docs, packages, scripts) har ikkala zonada
+};
+const files = walk(ROOT, []).filter((f) => inScope(relative(ROOT, f)));
 const findings = [];
 for (const file of files) {
   const rel = relative(ROOT, file);

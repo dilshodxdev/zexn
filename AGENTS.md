@@ -35,8 +35,10 @@ Bu fayl **faqat** AI lar (va odamlar) qanday ishlashini belgilaydi. Loyiha konte
 
 ## 4. Tekshiruv siyosati
 
-- **`pnpm check`** (typecheck + lint + prettier + invariant grep) har brief oxirida majburiy.
-  Qizil bo'lsa REVIEW ga o'tkazilmaydi. Natija `Report` ga bir qator.
+- **Zona tekshiruvi** har brief oxirida majburiy: server ijrochisi `pnpm check:server`, client
+  ijrochisi `pnpm check:client` (typecheck + lint + prettier + invariant grep, faqat o'z zonasi).
+  Qizil bo'lsa REVIEW ga o'tkazilmaydi. **Boshqa zonaning xatosi senga tegishli emas** - u sabab
+  BLOCKED qilma, Report'da bir qator yoz. Butun repo `pnpm check` ni Claude review'da qiladi.
 - **Testlar faqat kritik joylarda** (vitest, server): (a) tenant scope - boshqa markaz
   ma'lumoti chiqmasligi; (b) JWT verify/refresh/expire; (c) gap tahlil algoritmi
   (`analysis.service`). Boshqa joyda test yozilmaydi, brief aytmasa.

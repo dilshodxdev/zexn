@@ -40,6 +40,6 @@ src/stores/<nom>Store.ts            Zustand - faqat client state (sessiya, UI)
 
 ## Tugatish
 
-- `pnpm check` yashil, `pnpm --filter @zexn/client build` o'tadi.
+- `pnpm check:client` yashil (server xatosi senga tegishli emas), `pnpm --filter @zexn/client build` o'tadi.
 - Ekran brauzerda ko'rilgan (uch holat), qisqa `Report`.
 - Task faylida `Status: REVIEW`.

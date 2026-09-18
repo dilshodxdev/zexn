@@ -7,14 +7,24 @@ import { assertAcyclicTopics, reactCourse } from "./seed-data/react-course.js";
 
 const prisma = new PrismaClient();
 
-function questionOptions(questionId: string, correct: string, distractors: string[]) {
-  return [
-    { id: `${questionId}-a`, text: correct },
-    ...distractors.map((text, index) => ({
-      id: `${questionId}-${String.fromCharCode(98 + index)}`,
+function questionOptions(
+  questionId: string,
+  correct: string,
+  distractors: string[],
+  questionIndex: number,
+) {
+  const texts = [correct, ...distractors];
+  const rotate = questionIndex % texts.length;
+  const rotatedTexts = [...texts.slice(rotate), ...texts.slice(0, rotate)];
+  const correctIndex = (texts.length - rotate) % texts.length;
+
+  return {
+    options: rotatedTexts.map((text, index) => ({
+      id: `${questionId}-${String.fromCharCode(97 + index)}`,
       text,
     })),
-  ];
+    correctOptionId: `${questionId}-${String.fromCharCode(97 + correctIndex)}`,
+  };
 }
 
 function topicQuestions(topic: (typeof reactCourse.topics)[number]) {
@@ -111,14 +121,19 @@ async function seedReactCourse(): Promise<void> {
     });
     for (const [index, question] of topicQuestions(topic).entries()) {
       const questionId = `seed-react-${topic.slug}-q${index + 1}`;
-      const options = questionOptions(questionId, question.correct, question.distractors);
+      const { options, correctOptionId } = questionOptions(
+        questionId,
+        question.correct,
+        question.distractors,
+        index,
+      );
       await prisma.question.upsert({
         where: { id: questionId },
         update: {
           topicId,
           text: question.text,
           options,
-          correctOptionId: `${questionId}-a`,
+          correctOptionId,
           difficulty: index < 2 ? 1 : index < 4 ? 2 : 3,
         },
         create: {
@@ -126,7 +141,7 @@ async function seedReactCourse(): Promise<void> {
           topicId,
           text: question.text,
           options,
-          correctOptionId: `${questionId}-a`,
+          correctOptionId,
           difficulty: index < 2 ? 1 : index < 4 ? 2 : 3,
         },
       });

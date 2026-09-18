@@ -28,6 +28,13 @@ const STATUSES = [
 ];
 const ACTIVE = new Set(["IN_PROGRESS", "CHANGES_REQUESTED"]);
 
+const CHECK = {
+  gemini: "pnpm check:client",
+  gpt: "pnpm check:server",
+  codex: "pnpm check:server",
+  claude: "pnpm check",
+};
+
 const AGENTS = {
   gemini: {
     role: "client ijrochisi (apps/client)",
@@ -240,12 +247,12 @@ switch (cmd) {
         const code = await runAgent(agent, task);
         const after = loadTasks().find((t) => t.id === task.id);
         if (!chain || code !== 0 || after?.status !== "REVIEW") return;
-        const check = spawnSync("pnpm", ["check"], { cwd: ROOT, shell: true, stdio: "inherit" });
+        const check = spawnSync(CHECK[agent], [], { cwd: ROOT, shell: true, stdio: "inherit" });
         if (check.status !== 0) {
-          setStatus(task.id, "CHANGES_REQUESTED", "auto: pnpm check qizil");
+          setStatus(task.id, "CHANGES_REQUESTED", `auto: ${CHECK[agent]} qizil`);
           return;
         }
-        setStatus(task.id, "DONE", "auto: pnpm check yashil, Claude review kutilmoqda");
+        setStatus(task.id, "DONE", `auto: ${CHECK[agent]} yashil, Claude review kutilmoqda`);
       }
     };
     loop().then(() => process.exit(0));

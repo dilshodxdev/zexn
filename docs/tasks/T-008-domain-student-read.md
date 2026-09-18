@@ -1,6 +1,6 @@
 # T-008 - Domen jadvallari + seed + student o'qish endpointlari (server)
 
-**Status:** CHANGES_REQUESTED (seed: javob tartibi)
+**Status:** DONE
 **Phase:** 3
 **Depends:** T-002
 **Assignee:** gpt
@@ -84,7 +84,9 @@ Seed idempotent (`upsert` slug bo'yicha). Mavjud seed (markaz, userlar) saqlanad
 
 ## Questions
 
-- Yo'q.
+- `pnpm check` server typecheck'dan o'tdi, ammo scope tashqarisidagi
+  `apps/client/src/features/student/MentorChat.tsx:12` `no-empty-pattern` lint xatosi sabab qizil.
+  Client xatosi tuzatilgach tekshiruvni qayta ishga tushirish kerak.
 
 ## Review findings
 
@@ -110,3 +112,4 @@ Seed idempotent (`upsert` slug bo'yicha). Mavjud seed (markaz, userlar) saqlanad
   aylantir (masalan `rotate = index % options.length`), `correctOptionId` mos id bo'lsin, id'lar
   tartibi `a..d` saqlansin. Seed qayta ishga tushirilganda mavjud savollar yangilanadi (`upsert`
   `update` ham `options`/`correctOptionId` ni yozsin). Boshqa narsaga tegma.
+- Claude (2026-09-18): seed aralashtirish tekshirildi (a:40, b/c/d:20). `pnpm check` qizilligi Gemini zonasi - endi `check:server` ishlatiladi. DONE.

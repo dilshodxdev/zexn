@@ -14,7 +14,9 @@
     "format:check": "prettier --check .",
     "check": "pnpm -r run typecheck && eslint . && prettier --check . && node scripts/check-invariants.mjs",
     "check:invariants": "node scripts/check-invariants.mjs",
-    "board": "node scripts/board.mjs"
+    "board": "node scripts/board.mjs",
+    "check:server": "pnpm --filter @zexn/shared typecheck && pnpm --filter @zexn/server typecheck && eslint apps/server packages/shared scripts && prettier --check apps/server packages/shared scripts docs && node scripts/check-invariants.mjs --scope server",
+    "check:client": "pnpm --filter @zexn/shared typecheck && pnpm --filter @zexn/client typecheck && eslint apps/client packages/shared && prettier --check apps/client packages/shared docs && node scripts/check-invariants.mjs --scope client"
   },
   "devDependencies": {
     "@eslint/js": "^9.30.0",
