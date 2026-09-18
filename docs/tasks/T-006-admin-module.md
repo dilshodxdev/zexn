@@ -1,8 +1,9 @@
 # T-006 - Markaz admini: server moduli + admin ekranlari
 
-**Status:** TODO (server qismi T-002 DONE bo'lgandan keyin; client qismi T-005 DONE bo'lgandan keyin)
+**Status:** TODO
 **Phase:** 4
-**Assignee:** gpt (Codex yoki ChatGPT, egasi belgilaydi)
+**Depends:** T-002, T-005
+**Assignee:** gpt
 **Branch:** feat/admin-module
 
 ## Goal

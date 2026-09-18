@@ -1,7 +1,8 @@
 # T-XXX - <nom>
 
-**Status:** TODO | IN_PROGRESS | REVIEW | CHANGES_REQUESTED | BLOCKED | DONE
+**Status:** TODO | IN_PROGRESS | REVIEW | CHANGES_REQUESTED | BLOCKED | DONE | REJECTED
 **Phase:** <1..6>
+**Depends:** <T-XXX, T-YYY yoki ->
 **Assignee:** codex | gemini | claude | <boshqa>
 **Branch:** feat/server-<slug> | feat/client-<slug>
 

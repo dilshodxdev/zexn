@@ -1,7 +1,8 @@
 # T-007 - Student workspace (Stitch "workspace" ekrani) + endpointlarga ulash
 
-**Status:** TODO (T-005 DONE bo'lgandan keyin)
+**Status:** TODO
 **Phase:** 4
+**Depends:** T-005
 **Assignee:** gemini
 **Branch:** feat/client-student-workspace
 

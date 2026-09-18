@@ -1,7 +1,8 @@
 # T-009 - Test topshirish + deterministik xato-ildizi tahlili (server)
 
-**Status:** TODO (T-008 DONE bo'lgandan keyin)
+**Status:** TODO
 **Phase:** 3
+**Depends:** T-008
 **Assignee:** gpt
 **Branch:** feat/server-analysis
 

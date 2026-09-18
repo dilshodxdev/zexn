@@ -1,7 +1,8 @@
 # T-008 - Domen jadvallari + seed + student o'qish endpointlari (server)
 
-**Status:** TODO (T-002 DONE bo'lgandan keyin; T-006 bilan parallel mumkin, boshqa papkalar)
+**Status:** TODO
 **Phase:** 3
+**Depends:** T-002
 **Assignee:** gpt
 **Branch:** feat/server-domain
 
@@ -74,4 +75,14 @@ Seed idempotent (`upsert` slug bo'yicha). Mavjud seed (markaz, userlar) saqlanad
 
 ## Questions
 
+- `apps/server/src/modules/auth/` mavjud emas, `middleware/auth.ts` esa barcha so'rovni 401
+  qiladigan stub; `requireRole("STUDENT")` ham mavjud emas. T-002 o'zgarishlari qaysi branch/commitda?
+- `packages/shared/src/student.ts` da `:topicId` va `:testId` params uchun Zod schemalar yo'q.
+  Server qoidasi lokal schema yozishni taqiqlaydi. Claude shared kontraktga params schemalarini qo'shsin.
+
 ## Review findings
+
+- Claude (2026-09-18): (1) T-002 hali sherikda (Codex, alohida kompyuter) - board `Depends: T-002`
+  ni kutadi, T-002 DONE bo'lmaguncha `pnpm board next gpt` bu taskni bermaydi. (2) Params
+  schemalari qo'shildi: `topicParamsSchema`, `testParamsSchema`, `nextStepParamsSchema`
+  (`packages/shared/src/student.ts`), `validate({ params: topicParamsSchema })` bilan ishlat.

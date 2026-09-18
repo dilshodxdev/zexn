@@ -1,7 +1,8 @@
 # T-010 - AI Mentor chat + next-step done + reyting (server)
 
-**Status:** TODO (T-009 DONE bo'lgandan keyin)
+**Status:** TODO
 **Phase:** 5
+**Depends:** T-009
 **Assignee:** gpt
 **Branch:** feat/server-mentor
 

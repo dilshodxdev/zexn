@@ -1,0 +1,69 @@
+{
+  "header": {
+    "login": "Kirish",
+    "start": "Boshlash"
+  },
+  "hero": {
+    "title": "Bir sinf. O'ttiz xil yo'l.",
+    "subtitle": "ZEXN har o'quvchining xatosi ildizini topadi va aynan shuni tuzatadigan keyingi qadamni beradi.",
+    "ctaPrimary": "Hoziroq boshlash",
+    "ctaSecondary": "Platforma haqida",
+    "mock": {
+      "title": "Bilim xaritasi tahlili",
+      "topic1": "HTML va CSS asoslari",
+      "status1": "O'zlashtirilgan",
+      "topic2": "JavaScript event loop",
+      "status2": "O'rganilmoqda",
+      "topic3": "React render optimallash",
+      "status3": "Bo'shliq aniqlandi",
+      "topic4": "Next.js arxitekturasi",
+      "status4": "Qulflangan"
+    }
+  },
+  "problem": {
+    "badge": "Muammo",
+    "title": "An'anaviy ta'limdagi yashirin to'siqlar",
+    "subtitle": "Standart test tizimlari o'quvchining haqiqiy tushunish darajasini aniqlay olmaydi.",
+    "card1Title": "Bir xil ball, har xil sabab",
+    "card1Desc": "Ikki o'quvchi bir xil 60 ball olsa-da, birida asoslar, ikkinchisida esa mantiqiy tushunchalarda bo'shliq bo'ladi.",
+    "card2Title": "O'qituvchiga 30 kishini tahlil qilishga vaqt yo'q",
+    "card2Desc": "Guruhdagi har bir o'quvchining xato sabablarini birma-bir chuqur o'rganishga jismonan ulgurib bo'lmaydi.",
+    "card3Title": "LMS ballni ko'rsatadi, sababni emas",
+    "card3Desc": "Mavjud platformalar faqat qaysi savol xatoligini aytadi, lekin xatoning asl tub ildizini ochib bermaydi."
+  },
+  "howItWorks": {
+    "badge": "Qanday ishlaydi",
+    "title": "Bo'shliqlarni bartaraf etish mexanizmi",
+    "subtitle": "Algoritmlar va sun'iy intellekt yordamida uzluksiz o'quv zanjiri.",
+    "step1Title": "1. Diagnostik test",
+    "step1Desc": "O'quvchi mavzular bo'yicha moslashuvchan test topshiradi.",
+    "step2Title": "2. Bilim xaritasi",
+    "step2Desc": "Tizim o'quvchining kuchli va zaif nuqtalarini vizual ko'rsatadi.",
+    "step3Title": "3. Xato ildizi tahlili",
+    "step3Desc": "Algoritm xato sababini o'tmishdagi qaysi mavzuga borib taqalishini topadi.",
+    "step4Title": "4. Shaxsiy keyingi qadam",
+    "step4Desc": "AI mentor aynan shu bo'shliqni yopish uchun aniq mini-mashq beradi."
+  },
+  "whoIsItFor": {
+    "badge": "Kim uchun",
+    "title": "O'quv jarayonining barcha ishtirokchilari uchun",
+    "subtitle": "Har bir foydalanuvchi o'z maqsadi sari aniq yo'l xaritasiga ega bo'ladi.",
+    "studentTitle": "O'quvchi",
+    "studentBenefit1": "O'zining zaif nuqtalarini aniq biladi va vaqtini to'g'ri sarflaydi.",
+    "studentBenefit2": "24/7 ishlaydigan shaxsiy AI mentor yordamida qiyin mavzularni o'zlashtiradi.",
+    "teacherTitle": "O'qituvchi",
+    "teacherBenefit1": "Har bir o'quvchining real bilim xaritasini bir zumda ko'radi.",
+    "teacherBenefit2": "Dars rejasini guruhdagi umumiy bo'shliqlarga qarab tezkor moslashtiradi.",
+    "centerTitle": "O'quv markazi",
+    "centerBenefit1": "Bitiruvchilar sifati va kursni tugatish ko'rsatkichi sezilarli darajada oshadi.",
+    "centerBenefit2": "Shaxsiy yondashuv orqali o'quvchilar oqimining saqlanib qolishini ta'minlaydi."
+  },
+  "cta": {
+    "title": "Markazingizni ro'yxatdan o'tkazing",
+    "subtitle": "ZEXN platformasi bilan ta'lim sifatini keyingi bosqichga olib chiqing.",
+    "button": "Ro'yxatdan o'tish"
+  },
+  "footer": {
+    "copyright": "ZEXN - IT Park Xorazm piloti"
+  }
+}

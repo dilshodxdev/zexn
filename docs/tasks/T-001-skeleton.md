@@ -2,6 +2,7 @@
 
 **Status:** DONE
 **Phase:** 1
+**Depends:** -
 **Assignee:** Claude
 **Reviewer:** egasi
 

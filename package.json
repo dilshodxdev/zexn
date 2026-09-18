@@ -13,7 +13,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "check": "pnpm -r run typecheck && eslint . && prettier --check . && node scripts/check-invariants.mjs",
-    "check:invariants": "node scripts/check-invariants.mjs"
+    "check:invariants": "node scripts/check-invariants.mjs",
+    "board": "node scripts/board.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.30.0",

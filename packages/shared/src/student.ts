@@ -164,3 +164,8 @@ export const sendMentorMessageResponseSchema = z.object({
   student: mentorMessageSchema,
   mentor: mentorMessageSchema,
 });
+
+/** Route params: validate({ params: topicParamsSchema }) */
+export const topicParamsSchema = z.object({ topicId: idSchema });
+export const testParamsSchema = z.object({ testId: idSchema });
+export const nextStepParamsSchema = z.object({ id: idSchema });

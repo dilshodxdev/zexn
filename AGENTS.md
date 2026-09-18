@@ -73,6 +73,16 @@ Bir ijrochida bir vaqtda bitta task.
    `CHANGES_REQUESTED` (aniq fayl:qator + nima qilish).
 4. Egasi tasdiqlagach Claude commit qiladi.
 
+## 7a. Board - "hozirgi taskni bajar"
+
+Holat manbasi: har task faylining `Status / Assignee / Depends` sarlavhasi. Skript: `pnpm board`.
+
+- Egasi "hozirgi taskni bajar" desa: `node scripts/board.mjs next <sening-noming>` (gemini | gpt | codex)
+  -> chiqqan promptni bajar. Bog'liqligi DONE bo'lmagan task berilmaydi.
+- Holatni faqat skript bilan o'zgartir: `node scripts/board.mjs set T-XXX IN_PROGRESS | REVIEW | BLOCKED`.
+  `DONE`, `CHANGES_REQUESTED`, `REJECTED` ni faqat Claude/egasi qo'yadi.
+- Bir agentda bir vaqtda bitta `IN_PROGRESS`.
+
 ## 8. Ish jurnali
 
 Har ishdan keyin `docs/agent-log/<o'z-noming>.md` ga yozuv (eng tepaga, shablon

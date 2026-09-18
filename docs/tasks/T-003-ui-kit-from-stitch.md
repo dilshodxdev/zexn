@@ -2,6 +2,7 @@
 
 **Status:** DONE
 **Phase:** 4
+**Depends:** -
 **Assignee:** gemini
 **Branch:** feat/client-ui-kit
 

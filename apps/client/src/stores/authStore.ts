@@ -1,17 +1,34 @@
 import { create } from "zustand";
+import type { AuthResponse, MembershipSummary, UserSummary } from "@zexn/shared";
 
-/**
- * Sessiya holati (client state). 2-bosqichda to'ldiriladi: login -> setSession, logout -> clear.
- * Access token xotirada (Zustand), refresh token httpOnly cookie'da - localStorage'da token yo'q.
- */
 interface AuthState {
   accessToken: string | null;
-  setAccessToken: (token: string | null) => void;
+  user: UserSummary | null;
+  memberships: MembershipSummary[];
+  currentMembership: MembershipSummary | null;
+  setSession: (data: AuthResponse) => void;
+  setCurrentMembership: (membership: MembershipSummary | null) => void;
   clear: () => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
   accessToken: null,
-  setAccessToken: (accessToken) => set({ accessToken }),
-  clear: () => set({ accessToken: null }),
+  user: null,
+  memberships: [],
+  currentMembership: null,
+  setSession: (data: AuthResponse) =>
+    set({
+      accessToken: data.accessToken,
+      user: data.user,
+      memberships: data.memberships,
+      currentMembership: data.currentMembership,
+    }),
+  setCurrentMembership: (currentMembership: MembershipSummary | null) => set({ currentMembership }),
+  clear: () =>
+    set({
+      accessToken: null,
+      user: null,
+      memberships: [],
+      currentMembership: null,
+    }),
 }));

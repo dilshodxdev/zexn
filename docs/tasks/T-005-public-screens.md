@@ -1,7 +1,8 @@
 # T-005 - Landing, Login, Register ekranlari + auth oqimi (client)
 
-**Status:** TODO (navbatdagi; T-004 PWA T-007 dan keyin)
+**Status:** TODO
 **Phase:** 4
+**Depends:** T-003
 **Assignee:** gemini
 **Branch:** feat/client-auth-screens
 

@@ -1,7 +1,8 @@
 # T-004 - PWA (o'rnatiladigan) + mobil-first asos
 
-**Status:** TODO (T-003 DONE bo'lgandan keyin)
+**Status:** TODO
 **Phase:** 4
+**Depends:** T-007
 **Assignee:** gemini
 **Branch:** feat/client-pwa
 

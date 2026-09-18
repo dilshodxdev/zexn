@@ -2,7 +2,8 @@
 
 **Status:** TODO
 **Phase:** 2
-**Assignee:** codex
+**Depends:** -
+**Assignee:** gpt
 **Branch:** feat/server-auth
 
 ## Goal
