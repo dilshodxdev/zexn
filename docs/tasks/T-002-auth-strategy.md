@@ -1,6 +1,6 @@
 # T-002 - Auth: strategy pattern, login/parol, JWT, tenant middleware
 
-**Status:** TODO
+**Status:** REVIEW
 **Phase:** 2
 **Depends:** -
 **Assignee:** gpt
@@ -81,6 +81,16 @@ ishlaydi. Telegram strategiyasi keyingi task (T-004), lekin `AuthStrategy` inter
 - [ ] `docs/04` uchun `RefreshToken` tavsifi Report'da (Claude hujjatga ko'chiradi)
 
 ## Report
+
+- Password strategy, register/login, access/refresh rotation, logout, center tanlash, parol almashtirish va `/api/me` yozildi.
+- `requireAuth`, `requireRole` va mavjud `requireTenant` JWT membership bilan ishlaydi; majburiy parol almashtirish 403 beradi.
+- `RefreshToken`: user FK, SHA-256 `tokenHash`, expiry, revoke va yaratilgan vaqt; user o'chsa cascade. Claude `docs/04` ga ko'chiradi.
+- `pnpm --filter @zexn/server prisma:migrate --name auth` - `20260918084707_auth` yaratildi va DB'ga qo'llandi.
+- `SEED_DEV_PASSWORDS=true pnpm --filter @zexn/server db:seed` - 4 ta namuna userga bcrypt dev parol yozildi.
+- `pnpm check` - yashil; typecheck, ESLint, Prettier va invariant tekshiruvi o'tdi.
+- `pnpm --filter @zexn/server test` - 1 fayl, 4 test o'tdi: verify, expire, refresh rotation, revoked refresh.
+- `curl.exe -c cookies.txt ... /api/auth/login`, Bearer bilan `/api/me`, `-b/-c cookies.txt -X POST /api/auth/refresh`, yangi token bilan `/api/me` - student va `itpark-xorazm`, HTTP 200.
+- `curl.exe -b cookies.txt -X POST /api/auth/logout` - HTTP 204; keyingi `/api/auth/refresh` - HTTP 401 `UNAUTHORIZED`.
 
 ## Questions
 

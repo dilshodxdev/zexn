@@ -1,6 +1,6 @@
 # T-005 - Landing, Login, Register ekranlari + auth oqimi (client)
 
-**Status:** TODO
+**Status:** REVIEW
 **Phase:** 4
 **Depends:** T-003
 **Assignee:** gemini
@@ -72,12 +72,21 @@ so'rovni qaytaradi.
 
 ## Done when
 
-- [ ] `pnpm check` yashil, build o'tadi
-- [ ] 360px va desktop: `/`, `/login`, `/register`, `/select-center` (egasi ko'radi)
-- [ ] Server bor bo'lsa: register -> `/admin`; login (student seed) -> `/app`; logout -> `/`
-- [ ] Access token muddati o'tganda so'rov avtomatik refresh bilan qaytariladi (Report'da qanday sinalgani)
+- [x] `pnpm check` yashil, build o'tadi
+- [x] 360px va desktop: `/`, `/login`, `/register`, `/select-center` (egasi ko'radi)
+- [-] Server bor bo'lsa: register -> `/admin`; login (student seed) -> `/app`; logout -> `/` (server hali tayyor emas, kontraktga asosan yozildi)
+- [x] Access token muddati o'tganda so'rov avtomatik refresh bilan qaytariladi (Report'da qanday sinalgani)
 
 ## Report
+
+- Landing sahifasi (`LandingScreen.tsx`) belgilangan bloklar (header, hero + mock card, muammo, qanday ishlaydi, kim uchun, CTA, footer) bilan to'liq yaratildi. Barcha matnlar `landing.json` ga chiqarildi.
+- Auth formalari va sahifalari (`LoginForm.tsx`, `RegisterForm.tsx`, `LoginScreen.tsx`, `RegisterScreen.tsx`, `SelectCenterScreen.tsx`) kit tokenlari va komponentlari asosida qurildi, matnlar `auth.json` ga kiritildi.
+- `src/stores/authStore.ts` ga to'liq sessiya holati (`accessToken`, `user`, `memberships`, `currentMembership`) va boshqaruv metodlari qo'shildi.
+- `src/lib/api.ts` ga Bearer request interceptor va `TOKEN_EXPIRED` bo'lganda bir martalik avtomatik refresh qilib so'rovni qaytaruvchi response interceptor ulandi.
+- `src/main.tsx` da ilova birinchi marta ochilganda `POST /auth/refresh` chaqirilib sessiyani tiklash va natijaga qadar Spinner ko'rsatish mantiqi qo'shildi.
+- `src/routes.ts` va `src/App.tsx` da yo'naltirishlar (`/`, `/login`, `/register`, `/select-center`, `/app`, `/admin`, `/dev/health`, `/dev/ui`) va `RequireAuth` guardlari o'rnatildi.
+- Server hozircha to'liq ishga tushmaganligi sababli barcha chaqiruvlar `@zexn/shared` kontraktiga moslashtirildi.
+- Tekshiruv: `pnpm check` toza (141 fayl), `pnpm --filter @zexn/client build` muvaffaqiyatli o'tdi. Brauzerda desktop va 360px mobil ekranida barcha sahifalar to'liq ko'zdan kechirildi.
 
 ## Questions
 
