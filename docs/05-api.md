@@ -71,6 +71,22 @@ Monitoring `db` maydoniga qaraydi.
 `GET/POST /api/admin/users`, `PATCH /api/admin/users/:userId`, `GET/POST /api/admin/groups`,
 `PATCH /api/admin/groups/:groupId`, `POST/DELETE .../students`, `GET /api/admin/overview`.
 
+## Student (T-008..T-010, rol S, tenant ichida)
+
+`packages/shared/src/student.ts` kontrakt. Kontent (Subject/Topic/Question/Test/Material) GLOBAL,
+o'quvchi ma'lumotlari (Attempt/Gap/NextStep/Stats/MentorMessage) TENANT.
+
+| Method | Path                                  | Javob                             | Task  |
+| ------ | ------------------------------------- | --------------------------------- | ----- |
+| GET    | `/api/student/overview`               | `studentOverviewSchema`           | T-008 |
+| GET    | `/api/student/topics/:topicId`        | `topicDetailSchema`               | T-008 |
+| GET    | `/api/student/tests`                  | `testListItemSchema[]`            | T-008 |
+| GET    | `/api/student/tests/:testId`          | `testDetailSchema` (javobsiz)     | T-008 |
+| POST   | `/api/student/tests/:testId/attempts` | `attemptResultSchema`             | T-009 |
+| POST   | `/api/student/next-steps/:id/done`    | `nextStepDoneResponseSchema`      | T-010 |
+| GET    | `/api/student/mentor/messages?limit=` | `mentorMessageSchema[]`           | T-010 |
+| POST   | `/api/student/mentor/messages`        | `sendMentorMessageResponseSchema` | T-010 |
+
 ## 3-4 bosqich (reja)
 
 Modullar: `groups`, `subjects`, `topics`, `tests`, `attempts`, `gaps`, `next-steps`, `dashboard`.

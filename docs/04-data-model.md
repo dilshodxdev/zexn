@@ -65,7 +65,12 @@ Indeks: `@@index([centerId, role])` - "markazdagi barcha o'quvchilar" so'rovi uc
 `STUDENT | TEACHER | CENTER_ADMIN`. Super admin bu yerda **yo'q** (`User.isSuperAdmin`) -
 shunda `centerId` hech qachon nullable bo'lmaydi.
 
-## 3-bosqich (reja, hali schema'da yo'q)
+## 3-bosqich (T-008 da yoziladi; aniq modellar `docs/tasks/T-008-domain-student-read.md`)
+
+Qaror (2026-09-18): kontent GLOBAL (`centerId` yo'q), o'quvchi ma'lumotlari TENANT. Stitch dizayni
+bo'yicha qo'shimcha: `StudentStats` (XP, streak), `MentorMessage`.
+
+Dastlabki reja:
 
 Hammasi `centerId` bilan (tenant):
 

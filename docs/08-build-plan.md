@@ -43,9 +43,12 @@ Qabul: seed'dagi test topshirilganda gap'lar kutilgan mavzularga chiqadi (unit t
 
 ## Bosqich 4 - Frontend `[~]`
 
-Tasklar: T-003 kit (gemini, IN_PROGRESS), T-004 PWA (gemini), T-005 landing/login/register (gemini),
-T-006 admin server+client (gpt). Keyin: T-007 student workspace, T-008 Telegram, teacher dashboard.
-Register = markaz ro'yxatdan o'tadi (2026-09-18 qarori).
+Navbat (2026-09-18):
+
+- Gemini: T-003 kit DONE -> T-005 landing/login/register -> T-007 student workspace -> T-004 PWA.
+- GPT (server): T-008 domen+seed+o'qish -> T-009 tahlil -> T-010 mentor; parallel T-006 admin.
+- Codex (sherik): T-002 auth. Keyin: Telegram (T-011), teacher dashboard (T-012), real AI (T-013).
+  Register = markaz ro'yxatdan o'tadi (2026-09-18 qarori).
 
 - Student: test topshirish, bilim xaritasi, keyingi qadam.
 - Teacher: guruh dashboard, test tayinlash.

@@ -1,6 +1,6 @@
 # T-005 - Landing, Login, Register ekranlari + auth oqimi (client)
 
-**Status:** TODO (T-003 DONE bo'lgandan keyin; T-004 bilan parallel emas, ketma-ket)
+**Status:** TODO (navbatdagi; T-004 PWA T-007 dan keyin)
 **Phase:** 4
 **Assignee:** gemini
 **Branch:** feat/client-auth-screens
@@ -43,8 +43,18 @@ so'rovni qaytaradi.
 
 ## Requirements
 
-1. Landing mobil-first: hero (shior "Bir sinf. O'ttiz xil yo'l."), 3 ta afzallik, "Kirish" va
-   "Markazni ro'yxatdan o'tkazish" tugmalari. Matn `landing.json` da.
+1. Landing (`/`), mobil-first, kit tokenlari (qorong'i fon, lime aksent). Stitch dizayni yo'q, kit bilan:
+   - Header: logo "ZEXN"; o'ngda "Kirish" (ghost -> /login) va "Boshlash" (primary -> /register).
+   - Hero: sarlavha "Bir sinf. O'ttiz xil yo'l."; 1-2 gap: ZEXN har o'quvchining xatosi ILDIZINI
+     topadi va aynan shuni tuzatadigan keyingi qadamni beradi. Ikki tugma. Pastda/o'ngda mock
+     karta: 4 ta mavzu `done / current / weak / locked` holatlari bilan (kit `Badge`).
+   - "Muammo": 3 karta - "Bir xil ball, har xil sabab"; "O'qituvchiga 30 kishini tahlil qilishga
+     vaqt yo'q"; "LMS ballni ko'rsatadi, sababni emas".
+   - "Qanday ishlaydi": 4 qadam - Test -> Bilim xaritasi -> Xato ildizi -> Keyingi qadam.
+   - "Kim uchun": 3 karta - O'quvchi / O'qituvchi / O'quv markazi, har birida 2 qatorli foyda.
+   - CTA: "Markazingizni ro'yxatdan o'tkazing" -> /register. Footer: "ZEXN - IT Park Xorazm piloti".
+   - Barcha matn `landing.json`. Rasm yo'q (kit + `lucide-react` ikonlar). 360px da bir ustun,
+     `md:` da 2-3 ustun. Section'lar `max-w-5xl mx-auto px-4`.
 2. Login: `login`, `password`; xato -> `INVALID_CREDENTIALS` uchun `auth.errors.invalidCredentials`.
    Muvaffaqiyat: `setSession`, `mustChangePassword` bo'lsa `/app/change-password` (placeholder yo'l, ekran T-007).
 3. Register: `centerName`, `fullName`, `login`, `password`, `passwordConfirm` (faqat client);
