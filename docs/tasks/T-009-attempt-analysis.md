@@ -1,6 +1,6 @@
 # T-009 - Test topshirish + deterministik xato-ildizi tahlili (server)
 
-**Status:** TODO
+**Status:** DONE (Claude review)
 **Phase:** 3
 **Depends:** T-008
 **Assignee:** gpt
@@ -66,6 +66,25 @@ barcha savolga javob bo'lmasa 400. Test faol emas -> 404.
 
 ## Report
 
+- `POST /api/student/tests/:testId/attempts` route, controller, service va repository qo'shildi.
+- Javoblar to'liqligi, testga tegishliligi va option mavjudligi tekshiriladi.
+- Deterministik score, prerequisite ildizi, confidence va XP hisoblash yozildi.
+- AI explanation 3 soniya timeout va `null` fallback bilan ulandi.
+- Attempt, Answer, KnowledgeGap, NextStep va StudentStats yozuvlari bitta tranzaksiyada bajariladi.
+- Eski pending NextStep o'chiriladi; streak Asia/Tashkent kuni bo'yicha yangilanadi.
+- `pnpm --filter @zexn/server test`: 9/9 yashil, analysis uchun talab qilingan 5 holat o'tdi.
+- Server typecheck, task fayllari lint/format va invariant tekshiruvi yashil.
+- `pnpm check`: server yashil, lekin parallel `apps/client` typecheck xatolarida to'xtadi.
+- Curl: `/health` 200 va DB ok; seed login berilmagani sabab authenticated attempt bajarilmadi.
+
 ## Questions
 
+- Parallel client o'zgarishlari tugab, umumiy `pnpm check` yashil bo'lgach qayta tekshirilsinmi?
+- Curl uchun student seed login/parolini bering yoki seed faylini o'qishga ruxsat bering.
+
 ## Review findings
+
+- Claude (2026-09-18) javob + review: (1) `pnpm check` qizilligi Gemini'ning parallel client ishi -
+  server typecheck 0 xato, test 9/9 - qabul. (2) Seed parollar: `student/student`. Men curl qildim:
+  100% -> gap yo'q, xp 100, streak 1; 0% -> gap (root null, confidence 0.6), nextStep material bilan,
+  mock explanation - to'g'ri. DONE.

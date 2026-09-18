@@ -1,6 +1,6 @@
 # T-008 - Domen jadvallari + seed + student o'qish endpointlari (server)
 
-**Status:** TODO (T-002 DONE bo'lguncha kutadi)
+**Status:** CHANGES_REQUESTED (seed: javob tartibi)
 **Phase:** 3
 **Depends:** T-002
 **Assignee:** gpt
@@ -73,12 +73,18 @@ Seed idempotent (`upsert` slug bo'yicha). Mavjud seed (markaz, userlar) saqlanad
 
 ## Report
 
+- Prisma `domain` migratsiyasi global kontent va tenant student modellarini, FK va indekslarni yaratdi; `docs/04-data-model.md` shu tavsif bilan yangilanishi kerak.
+- React kursi 20 mavzu, DAG prerequisite, 1-2 material, har mavzuga 5 savol va 1 test bilan idempotent seed qilindi.
+- `pnpm --filter @zexn/server prisma:migrate --name domain` va `pnpm --filter @zexn/server db:seed` muvaffaqiyatli; seed takroriy ishga tushdi.
+- `curl GET /api/student/overview`: 20 mavzu, birinchi `current`, 19 ta `locked`, ratingda o'zi bor.
+- `curl GET /api/student/topics/:topicId`: mavzu tavsifi, 1 material, gap va faol test ID qaytdi.
+- `curl GET /api/student/tests`: 20 faol test, har birida 5 savol; `curl GET /api/student/tests/:testId`: 5 savol, `correctOptionId` yo'q.
+- Boshqa markaz STUDENT tokeni bilan overview rating faqat o'z markazidagi userni (250 XP) qaytardi; birinchi markaz useri chiqmadi.
+- `pnpm check`: yashil (typecheck, ESLint, Prettier, invariantlar).
+
 ## Questions
 
-- `apps/server/src/modules/auth/` mavjud emas, `middleware/auth.ts` esa barcha so'rovni 401
-  qiladigan stub; `requireRole("STUDENT")` ham mavjud emas. T-002 o'zgarishlari qaysi branch/commitda?
-- `packages/shared/src/student.ts` da `:topicId` va `:testId` params uchun Zod schemalar yo'q.
-  Server qoidasi lokal schema yozishni taqiqlaydi. Claude shared kontraktga params schemalarini qo'shsin.
+- Yo'q.
 
 ## Review findings
 
@@ -95,3 +101,12 @@ Seed idempotent (`upsert` slug bo'yicha). Mavjud seed (markaz, userlar) saqlanad
   (login), `student.telegramUsername` (hozircha null), `topics[].lessonsDone/lessonsTotal`
   (total = mavzu materiallari soni; done = status `done` bo'lsa total, aks holda 0),
   `stats.level` ("Beginner" < 500 XP, "Intermediate" < 2000, "Advanced"). `pnpm --filter @zexn/shared build` qilingan.
+
+## Review findings
+
+- Claude (2026-09-18): overview/tests/test detail to'g'ri (20 mavzu, `current`/`locked`, javobsiz savollar).
+  **CHANGES_REQUESTED (1 ta):** `apps/server/prisma/seed.ts` `questionOptions` - to'g'ri javob doim
+  birinchi (`-a`) variant; o'quvchi buni sezadi. Deterministik aralashtir: savol indeksiga qarab
+  aylantir (masalan `rotate = index % options.length`), `correctOptionId` mos id bo'lsin, id'lar
+  tartibi `a..d` saqlansin. Seed qayta ishga tushirilganda mavjud savollar yangilanadi (`upsert`
+  `update` ham `options`/`correctOptionId` ni yozsin). Boshqa narsaga tegma.
