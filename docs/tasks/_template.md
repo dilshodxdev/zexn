@@ -2,19 +2,31 @@
 
 **Status:** TODO | IN_PROGRESS | REVIEW | CHANGES_REQUESTED | BLOCKED | DONE
 **Phase:** <1..6>
-**Assignee:** <egasi | sherik | AI nomi>
-**Reviewer:** <egasi | Claude>
+**Assignee:** codex | gemini | claude | <boshqa>
+**Branch:** feat/server-<slug> | feat/client-<slug>
 
 ## Goal
 
-Bir-ikki gap: nima uchun bu task bor, tugaganda nima o'zgaradi.
+Bir-ikki gap: tugaganda nima ishlaydi.
 
-## Read first
+## Read only
 
-- `docs/README.md`
-- `AGENTS.md`
-- <tegishli docs/0X fayl>
-- <namuna kod: masalan `apps/server/src/modules/health/`>
+Faqat shu fayllar o'qiladi (repo bo'ylab kezilmaydi):
+
+- `apps/server/AGENTS.md` yoki `apps/client/AGENTS.md`
+- `<namuna fayl>`
+- `<kontrakt: packages/shared/src/<x>.ts>`
+
+## Contract
+
+`@zexn/shared` dan ishlatiladigan schema/typelar (nomma-nom). Yo'q bo'lsa "Claude qo'shadi: ...".
+
+## Files
+
+Yaratiladi / o'zgartiriladi (aniq ro'yxat; boshqa fayl - `Questions`):
+
+- `path/a.ts` - yangi
+- `path/b.ts` - o'zgartiriladi: nima
 
 ## Requirements
 
@@ -23,32 +35,20 @@ Bir-ikki gap: nima uchun bu task bor, tugaganda nima o'zgaradi.
 
 ## Out of scope
 
-- Bu task'da qilinmaydigan narsalar (scope creep oldini olish uchun aniq yoz).
+- ...
 
-## Self-checks
+## Done when
 
-Ijrochi topshirishdan oldin o'zi bajaradi va natijani `Report` ga yozadi:
-
-- [ ] `pnpm typecheck`
-- [ ] `pnpm lint` va `pnpm format:check`
-- [ ] (server) `prisma migrate dev` xatosiz, migratsiya fayli bor
-- [ ] (server) `pnpm --filter @zexn/server dev` ko'tariladi, endpoint qo'lda sinalgan (curl/REST client)
-- [ ] (client) `pnpm --filter @zexn/client build` xatosiz, ekran brauzerda ko'rilgan
-- [ ] Uzun chiziq yo'q (`.claude/rules/NO_EM_DASH.md` dagi buyruq)
+- [ ] `pnpm check` yashil
+- [ ] <endpoint curl bilan / ekran brauzerda: aniq holat>
+- [ ] <kritik bo'lsa: test nomi>
 
 ## Report
 
-Ijrochi to'ldiradi:
-
-- Nima qilindi (qisqa).
-- O'zgargan/yangi fayllar (ro'yxat).
-- Self-checks natijasi (qaysi buyruq, nima chiqdi). Sinalmagan bo'lsa ochiq yoz.
-- Yangi dependency (bo'lsa) va sababi.
+(ijrochi, 5-10 qator: nima qilindi, `pnpm check` natijasi, sinov buyrug'i va javobi, yangi dependency)
 
 ## Questions
 
-Ijrochining savollari / noaniqliklar. Javobsiz bo'lsa Status: BLOCKED.
-
 ## Review findings
 
-Reviewer to'ldiradi: topilmalar, qaror (DONE / CHANGES_REQUESTED), sabab.
+(Claude: `fayl:qator - muammo - nima qilish`; yakun: DONE / CHANGES_REQUESTED)

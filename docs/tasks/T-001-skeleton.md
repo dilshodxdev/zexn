@@ -1,6 +1,6 @@
 # T-001 - Monorepo skeleti + hujjat skeleti
 
-**Status:** REVIEW
+**Status:** DONE
 **Phase:** 1
 **Assignee:** Claude
 **Reviewer:** egasi
@@ -65,3 +65,6 @@ Claude jurnali: `docs/agent-log/claude.md` (2026-09-18). Fayl ro'yxati o'sha yer
 ## Review findings
 
 (egasi to'ldiradi)
+
+- 2026-09-18, egasi: ekran brauzerda ko'rindi. DONE. Ochiq qolgan: prod build tarmoq sabab
+  sinalmagan (6-bosqichda, DEPLOY.md bilan birga).

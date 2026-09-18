@@ -1,108 +1,91 @@
 # AGENTS.md - AI agentlar uchun ish protokoli
 
-Bu fayl **faqat** AI lar (va odamlar) qanday ishlashini belgilaydi. Loyiha konteksti bu yerda
-emas: `docs/README.md` dan boshlang.
+Bu fayl **faqat** AI lar (va odamlar) qanday ishlashini belgilaydi. Loyiha konteksti
+`docs/README.md` da. Papka qoidalari: `apps/server/AGENTS.md`, `apps/client/AGENTS.md`.
 
 ## 1. Kim kim
 
-| Kim                                        | Rol                      | Nima qiladi                                                        |
-| ------------------------------------------ | ------------------------ | ------------------------------------------------------------------ |
-| Egasi                                      | Frontend, mahsulot egasi | `apps/client`. **Yagona commit qiluvchi.** Brieflarni tasdiqlaydi. |
-| Sherik                                     | Backend                  | `apps/server`, `feat/server-*` branch.                             |
-| Claude                                     | Orkestrator + mentor     | Reja, brief (`docs/tasks/`), review, egasiga TS o'rgatish.         |
-| Boshqa AI lar (DeepSeek, Kimi, Codex, ...) | Ijrochi                  | Bitta brief oladi, bajaradi, jurnalga yozadi.                      |
+| Kim                       | Rol                        | Nima qiladi                                                                                                            |
+| ------------------------- | -------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Egasi                     | Mahsulot egasi, frontend   | Brieflarni tasdiqlaydi, ekranlarni ko'radi, yakuniy qaror.                                                             |
+| Sherik                    | Backend                    | `apps/server`, `feat/server-*`. Codex bilan ishlaydi.                                                                  |
+| Claude                    | **Orkestrator + reviewer** | Reja, brieflar (`docs/tasks/`), `packages/shared` (kontrakt), diff review, git (egasi nomidan). Ilova kodini yozmaydi. |
+| Codex                     | **Server ijrochisi**       | `apps/server` ichida bitta brief. `apps/server/AGENTS.md` ni o'qiydi.                                                  |
+| Gemini (Antigravity)      | **Client ijrochisi**       | `apps/client` ichida bitta brief. `apps/client/AGENTS.md` ni o'qiydi.                                                  |
+| DeepSeek, Kimi, boshqalar | Mayda ijrochi              | Izolyatsiyalangan ish: seed ma'lumot, i18n, hujjat. `docs/agent-log/AGENT_RULES.md` beriladi.                          |
 
-Ro'yxat ochiq: yangi AI qo'shilsa shu jadvalga qator qo'shiladi.
+## 2. Kod yozishdan oldin o'qi (faqat shu, boshqa hech narsa)
 
-## 2. Kod yozishdan oldin o'qi (shu tartibda)
+1. Berilgan task fayli: `docs/tasks/T-XXX-<slug>.md`. Task berilmagan bo'lsa - so'ra.
+2. Task'ning `Read only` ro'yxatidagi fayllar. **Repo bo'ylab kezma** - ro'yxatda yo'q faylni
+   o'qish kerak bo'lsa, `Questions` ga yoz.
+3. O'z papkangning `AGENTS.md` i (`apps/server` yoki `apps/client`).
 
-1. `docs/README.md` - nima qurayapmiz, qaysi faylni birinchi o'qish.
-2. `AGENTS.md` - shu fayl.
-3. `docs/agent-log/README.md` - kim nima qilgan (lokal, bo'lmasa o'tkazib yubor).
-4. Berilgan task fayli: `docs/tasks/T-XXX-<slug>.md`.
+`docs/README.md` faqat kontekst yetishmasa.
 
-Task berilmagan bo'lsa - **qaysi biri ekanini so'ra**, taxmin qilma.
+## 3. Token tejash - majburiy uslub
 
-## 3. Ish jurnali - majburiy
+- Tushuntirma, tahlil yozma, variantlarni sanama. Chiqish = kod + task faylidagi `Report`
+  (5-10 qator). Mentor rejimi faqat Claude va egasi o'rtasida.
+- Bitta brief = bitta modul yoki bitta ekran, maksimum ~10 fayl. Kattaroq bo'lsa Claude bo'ladi.
+- Namunadan nusxa ol (`modules/health/`, `features/health/`), yangi uslub o'ylab topma.
+- Scope'dan tashqari refactor, "yaxshilash", nomlarni o'zgartirish YO'Q.
+- Formatni qo'lda to'g'rilama: `pnpm format` qiladi.
 
-Har ishdan keyin:
+## 4. Tekshiruv siyosati
 
-- `docs/agent-log/<o'z-noming>.md` ga yozuv (eng tepaga), shablon: `docs/agent-log/_template.md`.
-- `docs/agent-log/README.md` jadvaliga bir qator.
-- O'z nomingni o'zing yoz (masalan `deepseek`, `kimi`, `codex`). **Faqat o'z faylingga yoz.**
+- **`pnpm check`** (typecheck + lint + prettier + invariant grep) har brief oxirida majburiy.
+  Qizil bo'lsa REVIEW ga o'tkazilmaydi. Natija `Report` ga bir qator.
+- **Testlar faqat kritik joylarda** (vitest, server): (a) tenant scope - boshqa markaz
+  ma'lumoti chiqmasligi; (b) JWT verify/refresh/expire; (c) gap tahlil algoritmi
+  (`analysis.service`). Boshqa joyda test yozilmaydi, brief aytmasa.
+- Endpoint qo'lda sinaladi (curl/REST client), buyruq va natija `Report` ga.
 
-Nega: hech bir AI commit qilmaydi. Commit qilinmagan diff'da git muallifni saqlamaydi -
-jurnal bo'lmasa "buni kim, nega qildi" yo'qoladi.
+## 5. Qat'iy qoidalar
 
-## 4. Qat'iy qoidalar
+- Faqat `Requirements` va `Files` ro'yxatidagi ish. Boshqa fayl kerak bo'lsa `Questions`.
+- **git commit/push/branch/merge QILMA** (Claude egasining ko'rsatmasi bilan qiladi).
+- `docs/` ni tahrirlama. Istisno: o'z task faylingning `Status`, `Report`, `Questions`.
+- `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, `packages/shared` ga tegma (shared'ni Claude yozadi).
+- Yangi dependency faqat brief ruxsat bersa.
+- Sirlar faqat `.env`. `.env.example` yangilanadi.
+- Uzun chiziq (U+2013, U+2014) hech qayerda; oddiy `-`. Istisno: i18n JSON'da "qiymat yo'q".
+- Bypass/demo kod default o'chiq, alohida env bo'lmasa yo'q; `NODE_ENV !== "production"` yetarli emas.
 
-- **Faqat berilgan ish.** Brief'da yo'q narsani qilma (scope creep yo'q). Kerak deb o'ylasang
-  `## Questions` ga yoz.
-- **commit / push / branch / merge qilma.** O'zgarish ishchi katalogda qoladi, egasi ko'rib
-  commit qiladi.
-- **`docs/` ni tahrirlama.** Istisno: o'z task faylingning `Status`, `Report`, `Questions`
-  bo'limlari.
-- **`AGENTS.md`, `CLAUDE.md` ga tegma.**
-- **Yangi dependency faqat brief ruxsat bersa**, sababi bilan (`Report` da).
-- **Sirlar faqat `.env` da.** Kodga, hujjatga, jurnalga token/parol yozilmaydi.
-  `.env.example` doim yangilanadi.
+## 6. Arxitektura invariantlari (`pnpm check` grep qiladi)
 
-## 5. Uzun chiziq taqiqlanadi
+- Server: `routes -> controller -> service -> repository`. Prisma faqat `*.repository.ts`.
+- Har POST/PUT/PATCH `validate({ body })`, schema faqat `@zexn/shared` dan.
+- Xato: `throw new AppError(status, message, code, meta)`; format `{ error: { message, code, meta } }`.
+- `centerId` faqat `req.centerId` (JWT). `process.env` faqat `config/env.ts`.
+- `any` yo'q. `console.log` yo'q. UI matni faqat `locales/uz/*.json` + `t()`.
+- Vaqt: DB UTC, UI `Asia/Tashkent` (`formatDateTime`).
 
-Em dash (U+2014) va en dash (U+2013) **hech qayerda** ishlatilmaydi: kod, izoh,
-hujjat, commit xabari, chat. Oddiy `-` ishlatiladi.
-Istisno: UI da "qiymat yo'q" belgisi (U+2014) - faqat i18n JSON ichida.
+## 7. Task aylanishi va review
 
-## 6. Arxitektura invariantlari
+`TODO -> IN_PROGRESS -> REVIEW -> DONE`, qo'shimcha `CHANGES_REQUESTED`, `BLOCKED`.
+Bir ijrochida bir vaqtda bitta task.
 
-- Server: `routes -> controller -> service -> repository`. Biznes mantiq service'da, Prisma
-  faqat repository'da, controller faqat req/res.
-- Har endpoint `validate(schema)`. Schemalar **faqat** `packages/shared` da (client ham
-  o'shani ishlatadi).
-- Xato formati bitta: `{ "error": { "message", "code"?, "meta"? } }` (`AppError` + `errorHandler`).
-- **`centerId` faqat JWT dan** (`req.centerId`, tenant middleware). Body/query/params dan
-  hech qachon.
-- Vaqt: DB'da UTC, UI'da `Asia/Tashkent`.
-- TypeScript `strict: true`, `any` yo'q (kerak bo'lsa `unknown` + narrowing).
-- UI matnlari o'zbekcha, i18n JSON ichida.
+1. Claude brief yozadi -> egasi tasdiqlaydi.
+2. Ijrochi bajaradi -> `pnpm check` -> `Report` -> `Status: REVIEW`.
+3. Claude **faqat `git diff`** ni o'qiydi, `Review findings` ga yozadi -> `DONE` yoki
+   `CHANGES_REQUESTED` (aniq fayl:qator + nima qilish).
+4. Egasi tasdiqlagach Claude commit qiladi.
 
-## 7. Branch tartibi
+## 8. Ish jurnali
 
-- `main` - integratsiya, to'g'ridan-to'g'ri commit yo'q.
-- `feat/client-*` - egasi. `feat/server-*` - sherik.
-- `packages/shared` o'zgarishi - **ikkalasi kelishib**, alohida kichik PR. Server endpoint
-  qo'shsa avval shared'ga schema, keyin server, keyin client.
-- Conventional commits: `feat(server): ...`, `fix(client): ...`, `docs: ...`, `chore: ...`.
+Har ishdan keyin `docs/agent-log/<o'z-noming>.md` ga yozuv (eng tepaga, shablon
+`docs/agent-log/_template.md`) + `docs/agent-log/README.md` jadvaliga bir qator. Faqat o'z
+faylingga. Bu papka lokal (commit qilinmaydi); yo'q bo'lsa o'tkazib yubor, `Report` yetadi.
 
-## 8. Task aylanishi
+## 9. Branch tartibi
 
-`TODO -> IN_PROGRESS -> REVIEW -> DONE`. Qo'shimcha: `CHANGES_REQUESTED` (reviewer qaytardi),
-`BLOCKED` (savol javobsiz).
-
-Bir vaqtda faqat **bitta** task `IN_PROGRESS` yoki `REVIEW` bo'ladi (bir ijrochi uchun).
-
-## 9. Xavfsizlik - bypass / demo kod
-
-- Har qanday bypass (auth o'chirish, demo user, seed endpoint) **default o'chiq**.
-- Alohida env (masalan `ENABLE_DEMO_LOGIN=true`) bo'lmasa umuman yo'q.
-- `NODE_ENV !== "production"` tekshiruvi **yetarli emas**: o'rnatilmagan bo'lsa `true` beradi.
+`main` integratsiya. `feat/client-*` egasi/Gemini, `feat/server-*` sherik/Codex,
+`chore/shared-*` Claude. `packages/shared` o'zgarishi ikkala tomon kelishib, alohida kichik commit.
+Conventional commits: `feat(server): ...`, `fix(client): ...`, `docs: ...`, `chore: ...`.
 
 ## 10. Muhit
 
-- Windows 11, PowerShell 5.1 (`&&` ishlamaydi - `;` yoki alohida qatorlar), pnpm 11, Node >= 20.
-- Asosiy buyruqlar (repo root'dan):
-  - `pnpm install`
-  - `pnpm dev` - shared watch + server + client
-  - `pnpm build` / `pnpm typecheck` / `pnpm lint` / `pnpm format`
-  - `docker compose up -d` - dev Postgres
-  - `pnpm --filter @zexn/server prisma:migrate --name <nom>`
-  - `pnpm --filter @zexn/server db:seed`
-  - `pnpm --filter @zexn/client exec tsc -b`
-
-## 11. Egasi haqida
-
-Middle darajadagi full-stack, TypeScript'ni chuqurlashtirmoqda. Shuning uchun:
-
-- Nima va **nega** qilganingni tushuntir.
-- Yangi TS tushunchasi birinchi uchraganda qisqa izohla.
-- "Sehrli" kod tashlama: o'quvchi o'zi qayta yoza oladigan darajada oddiy bo'lsin.
+Windows 11, PowerShell 5.1 (`&&` ishlamaydi), pnpm 11, Node >= 20.
+`pnpm dev`, `pnpm check`, `docker compose up -d`,
+`pnpm --filter @zexn/server prisma:migrate --name <nom>`, `pnpm --filter @zexn/server db:seed`.

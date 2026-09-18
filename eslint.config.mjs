@@ -12,6 +12,11 @@ export default tseslint.config(
   ...tseslint.configs.recommended,
   eslintConfigPrettier,
   {
+    // Node skriptlari (scripts/*.mjs): global process/console
+    files: ["scripts/**/*.mjs"],
+    languageOptions: { globals: { process: "readonly", console: "readonly" } },
+  },
+  {
     rules: {
       // `_` prefiksli argument/o'zgaruvchi ataylab ishlatilmagan deb hisoblanadi
       "@typescript-eslint/no-unused-vars": [

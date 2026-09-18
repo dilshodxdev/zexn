@@ -1,13 +1,13 @@
 import type { HealthResponse } from "@zexn/shared";
-import { prisma } from "../../lib/prisma.js";
+import * as healthRepository from "./health.repository.js";
 
 const DB_TIMEOUT_MS = 2000;
 
-/** DB'ga eng arzon so'rov. Timeout: health endpoint osilib qolmasin. */
+/** Timeout bilan: health endpoint DB osilib qolsa ham javob beradi. */
 async function checkDb(): Promise<HealthResponse["db"]> {
   try {
     await Promise.race([
-      prisma.$queryRaw`SELECT 1`,
+      healthRepository.pingDb(),
       new Promise((_, reject) => setTimeout(() => reject(new Error("db timeout")), DB_TIMEOUT_MS)),
     ]);
     return "ok";

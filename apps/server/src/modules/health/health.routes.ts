@@ -6,7 +6,7 @@ import * as controller from "./health.controller.js";
  *   <nom>.routes.ts     - Router + validate(schema) + controller
  *   <nom>.controller.ts - asyncHandler(async (req, res) => ...)
  *   <nom>.service.ts    - biznes mantiq, AppError tashlaydi
- *   <nom>.repository.ts - faqat Prisma (health'da DB mantiqi yo'q, shuning uchun yo'q)
+ *   <nom>.repository.ts - faqat Prisma (health: pingDb)
  */
 export const healthRouter = Router();
 

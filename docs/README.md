@@ -58,6 +58,7 @@ docker compose up -d            # Postgres
 pnpm --filter @zexn/server prisma:migrate --name init
 pnpm --filter @zexn/server db:seed
 pnpm dev                        # shared watch + server :4000 + client :5173
+pnpm check                      # typecheck + lint + prettier + invariantlar (har ish oxirida)
 ```
 
 Tekshirish: http://localhost:4000/health, http://localhost:5173 (client `/api/health` ni ko'rsatadi).

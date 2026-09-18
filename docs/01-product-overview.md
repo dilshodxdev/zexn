@@ -44,14 +44,17 @@ natija o'qituvchi dashboard'ida ko'rsatiladi.
 
 ## Qarorlar jurnali
 
-| Sana       | Qaror                                                     | Sabab                                                                               |
-| ---------- | --------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| 2026-09-18 | pnpm workspaces, Turborepo/Nx yo'q                        | 3 paket uchun ortiqcha; `pnpm -r` yetadi                                            |
-| 2026-09-18 | Prisma 6 (7 emas)                                         | Prisma 7 `prisma.config.ts` + driver adapter talab qiladi; hackathon uchun ortiqcha |
-| 2026-09-18 | Express 4 (5 emas)                                        | Typelar va middleware ekotizimi barqaror; `asyncHandler` bilan async xato ushlanadi |
-| 2026-09-18 | Super admin `User.isSuperAdmin`, Membership'da emas       | Tenant filtri (`centerId`) hech qachon nullable bo'lmaydi                           |
-| 2026-09-18 | `User.passwordHash` nullable                              | Telegram-only akkaunt bo'lishi mumkin                                               |
-| 2026-09-18 | Deterministik tahlil birinchi, LLM faqat matn             | Natija takrorlanuvchan va tushuntiriladigan bo'lsin; AI yiqilsa ham qadam bor       |
-| 2026-09-18 | Vite dev proxy = nginx qoidasi (`/api/health -> /health`) | Dev va prod bir xil yo'l, `VITE_API_URL` bo'sh                                      |
-| 2026-09-18 | Auth stub default yopiq (401)                             | Ochiq stub xavfsizlik teshigi                                                       |
-| 2026-09-18 | Hujjatlar o'zbekcha, kod inglizcha, UI o'zbekcha          | Sherik va pilot uchun tushunarli                                                    |
+| Sana       | Qaror                                                                         | Sabab                                                                               |
+| ---------- | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| 2026-09-18 | pnpm workspaces, Turborepo/Nx yo'q                                            | 3 paket uchun ortiqcha; `pnpm -r` yetadi                                            |
+| 2026-09-18 | Prisma 6 (7 emas)                                                             | Prisma 7 `prisma.config.ts` + driver adapter talab qiladi; hackathon uchun ortiqcha |
+| 2026-09-18 | Express 4 (5 emas)                                                            | Typelar va middleware ekotizimi barqaror; `asyncHandler` bilan async xato ushlanadi |
+| 2026-09-18 | Super admin `User.isSuperAdmin`, Membership'da emas                           | Tenant filtri (`centerId`) hech qachon nullable bo'lmaydi                           |
+| 2026-09-18 | `User.passwordHash` nullable                                                  | Telegram-only akkaunt bo'lishi mumkin                                               |
+| 2026-09-18 | Deterministik tahlil birinchi, LLM faqat matn                                 | Natija takrorlanuvchan va tushuntiriladigan bo'lsin; AI yiqilsa ham qadam bor       |
+| 2026-09-18 | Vite dev proxy = nginx qoidasi (`/api/health -> /health`)                     | Dev va prod bir xil yo'l, `VITE_API_URL` bo'sh                                      |
+| 2026-09-18 | Auth stub default yopiq (401)                                                 | Ochiq stub xavfsizlik teshigi                                                       |
+| 2026-09-18 | Hujjatlar o'zbekcha, kod inglizcha, UI o'zbekcha                              | Sherik va pilot uchun tushunarli                                                    |
+| 2026-09-18 | Ko'p-AI ish tartibi: Claude orkestrator/reviewer, Codex server, Gemini client | Tez tempda parallel ish; har ijrochi faqat o'z papkasi                              |
+| 2026-09-18 | Tekshiruvchi = `pnpm check` skript, review faqat diff                         | Token tejash; grep 0 tokenda 100% aniq                                              |
+| 2026-09-18 | Testlar faqat kritik joylarda (tenant scope, JWT, analysis)                   | Hackathon tempi; qolgan joyda `pnpm check` yetadi                                   |

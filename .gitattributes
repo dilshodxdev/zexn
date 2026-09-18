@@ -1,0 +1,5 @@
+# Windows/Linux aralash jamoa: repo ichida doim LF (Docker uchun)
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.ico binary
