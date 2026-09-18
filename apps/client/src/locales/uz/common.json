@@ -1,0 +1,18 @@
+{
+  "app": {
+    "name": "ZEXN",
+    "tagline": "Bir sinf. O'ttiz xil yo'l."
+  },
+  "health": {
+    "title": "Server holati",
+    "loading": "Tekshirilmoqda...",
+    "error": "Server bilan bog'lanib bo'lmadi",
+    "retry": "Qayta urinish",
+    "server": "Server",
+    "db": "Ma'lumotlar bazasi",
+    "uptime": "Ishlash vaqti",
+    "time": "Server vaqti",
+    "ok": "ishlayapti",
+    "down": "javob bermayapti"
+  }
+}

@@ -1,0 +1,22 @@
+# build / deps
+node_modules/
+dist/
+build/
+*.tsbuildinfo
+.DS_Store
+
+# sirlar
+.env
+.env.local
+.env.production
+
+# AI qatlami - FAQAT SHU KOMPYUTERDA qoladi (repoga ham, prodga ham tushmaydi)
+CLAUDE.md
+GEMINI.md
+/.claude/
+/.codex/
+/.agents/
+/docs/agent-log/
+
+# shaxsiy hujjatlar - kod emas, ba'zilari uchinchi shaxslarga tegishli
+/hujjatlar/

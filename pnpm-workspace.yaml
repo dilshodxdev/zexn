@@ -1,0 +1,11 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+
+# pnpm 10+ postinstall skriptlarni default bloklaydi.
+# Prisma engine yuklab olishi va esbuild binary o'rnatishi uchun aniq ruxsat (pnpm 11: allowBuilds).
+allowBuilds:
+  prisma: true
+  "@prisma/client": true
+  "@prisma/engines": true
+  esbuild: true

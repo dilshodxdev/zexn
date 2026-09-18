@@ -1,0 +1,75 @@
+// ZEXN - 1-bosqich: Center, User, Membership.
+// Qoida: vaqt DB'da UTC (Postgres timestamptz), UI'da Asia/Tashkent.
+// Tenant jadvallarida centerId bor; har so'rovda centerId filtri majburiy (docs/04-data-model.md).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// O'quv markazi = tenant. Har markaz o'z izolyatsiyalangan workspace'iga ega.
+model Center {
+  id        String   @id @default(cuid())
+  name      String
+  /// URL'da va loglarda ishlatiladigan qisqa unikal nom (masalan "itpark-xorazm")
+  slug      String   @unique
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  memberships Membership[]
+
+  @@map("centers")
+}
+
+/// Odam (akkaunt). Markazga bog'liq emas - rol Membership orqali.
+model User {
+  id       String @id @default(cuid())
+  fullName String
+  /// Login + parol usuli. Markaz admini yaratadi.
+  login    String @unique
+  /// Telegram-only akkaunt bo'lishi mumkin, shuning uchun nullable.
+  passwordHash String?
+  /// Telegram deep-link orqali bog'langan Telegram user ID.
+  telegramId   BigInt?  @unique
+  /// Vaqtinchalik parol bilan yaratilgan - birinchi kirishda almashtirish shart.
+  mustChangePassword Boolean @default(false)
+  /// Biz (platforma egalari). Markazga bog'liq emas, tenant filtri unga ham qo'llanadi.
+  isSuperAdmin Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  memberships Membership[]
+
+  @@map("users")
+}
+
+/// Markaz ichidagi rol. Super admin bu yerda emas (User.isSuperAdmin).
+enum Role {
+  STUDENT
+  TEACHER
+  CENTER_ADMIN
+}
+
+/// User x Center x Role. Bitta odam bir markazda o'qituvchi, boshqasida admin bo'lishi mumkin.
+model Membership {
+  id        String   @id @default(cuid())
+  userId    String
+  centerId  String
+  role      Role
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  center Center @relation(fields: [centerId], references: [id], onDelete: Cascade)
+
+  /// Bir odam bir markazda bitta rol.
+  @@unique([userId, centerId])
+  @@index([centerId, role])
+  @@map("memberships")
+}
