@@ -3,10 +3,17 @@
 //   pnpm board next <agent>         - agentning hozirgi taski + prompt
 //   pnpm board prompt <agent>       - faqat prompt (nusxa olish uchun)
 //   pnpm board set T-005 REVIEW [izoh]
-//   pnpm board run codex            - Codex CLI ni hozirgi task bilan ishga tushiradi
-import { readdirSync, readFileSync, writeFileSync } from "node:fs";
+//   pnpm board run codex | gemini   - CLI orqali ijrochini hozirgi task bilan ishga tushiradi (log: docs/agent-log/runs)
+import {
+  createWriteStream,
+  mkdirSync,
+  openSync,
+  readdirSync,
+  readFileSync,
+  writeFileSync,
+} from "node:fs";
 import { join } from "node:path";
-import { spawnSync } from "node:child_process";
+import { spawn } from "node:child_process";
 
 const ROOT = process.cwd();
 const TASKS_DIR = join(ROOT, "docs", "tasks");
@@ -163,23 +170,65 @@ switch (cmd) {
     setStatus(arg1, arg2, rest.join(" "));
     break;
   case "run": {
-    if (arg1 !== "codex") throw new Error("run faqat codex uchun (CLI shu kompyuterda bor)");
-    const task = currentFor("codex", all) || currentFor("gpt", all);
+    // CLI orqali ijrochini ishga tushiradi; log docs/agent-log/runs/ (lokal) ga yoziladi.
+    //   codex  -> codex exec, sandbox workspace-write + tarmoq (pnpm install uchun)
+    //   gemini -> gemini -p ... --yolo (@google/gemini-cli o'rnatilgan bo'lsa)
+    const agent = arg1 === "gemini" ? "gemini" : "codex";
+    const task =
+      agent === "gemini"
+        ? currentFor("gemini", all)
+        : currentFor("codex", all) || currentFor("gpt", all);
     if (!task || task.status === "BLOCKED") {
-      console.log(prompt("codex", task));
+      console.log(prompt(agent, task));
       break;
     }
-    const p = prompt("codex", task);
-    console.log(`codex exec ishga tushmoqda: ${task.id}\n`);
-    const r = spawnSync("codex", ["exec", "--full-auto", "--cd", ROOT, p], {
-      stdio: "inherit",
+    const p = prompt(agent, task);
+    const runsDir = join(ROOT, "docs", "agent-log", "runs");
+    mkdirSync(runsDir, { recursive: true });
+    const stamp = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
+    const logFile = join(runsDir, `${task.id}-${agent}-${stamp}.log`);
+    const lastFile = join(runsDir, `${task.id}-${agent}-last.md`);
+    // Prompt stdin orqali: Windows shell argumentida ko'p qatorli matn buziladi
+    const promptFile = join(runsDir, `${task.id}-${agent}-prompt.txt`);
+    writeFileSync(promptFile, p);
+    const args =
+      agent === "gemini"
+        ? ["--yolo"]
+        : [
+            "exec",
+            "-C",
+            ROOT,
+            "-s",
+            "workspace-write",
+            "-c",
+            "sandbox_workspace_write.network_access=true",
+            "-o",
+            lastFile,
+          ];
+    console.log(`${agent} ishga tushdi: ${task.id}. Log: ${logFile}\n`);
+    setStatus(task.id, "IN_PROGRESS", `${agent} CLI`);
+    const child = spawn(agent, args, {
+      cwd: ROOT,
       shell: true,
+      stdio: [openSync(promptFile, "r"), "pipe", "pipe"],
     });
-    process.exit(r.status ?? 1);
+    const out = createWriteStream(logFile);
+    for (const stream of [child.stdout, child.stderr]) {
+      stream.on("data", (chunk) => {
+        out.write(chunk);
+        process.stdout.write(chunk);
+      });
+    }
+    child.on("close", (code) => {
+      out.end(`\n[exit ${code}]\n`);
+      console.log(`\n${agent} tugadi (exit ${code}). Holat: pnpm board`);
+      process.exit(code ?? 1);
+    });
+    break;
   }
   // eslint-disable-next-line no-fallthrough
   default:
     console.log(
-      "Buyruqlar: list | next <agent> | prompt <agent> | set <T-XXX> <STATUS> [izoh] | run codex",
+      "Buyruqlar: list | next <agent> | prompt <agent> | set <T-XXX> <STATUS> [izoh] | run codex|gemini",
     );
 }
