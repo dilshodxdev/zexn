@@ -14,5 +14,36 @@
     "time": "Server vaqti",
     "ok": "ishlayapti",
     "down": "javob bermayapti"
+  },
+  "ui": {
+    "retry": "Qayta urinish",
+    "loading": "Yuklanmoqda...",
+    "empty": "Ma'lumot yo'q",
+    "emptyDescription": "Hozircha hech qanday ma'lumot topilmadi.",
+    "error": "Xatolik yuz berdi",
+    "selectPlaceholder": "Tanlang..."
+  },
+  "dev": {
+    "title": "UI Kit namoyishi",
+    "subtitle": "Barcha semantik komponentlar va variantlar",
+    "buttons": "Tugmalar (Button)",
+    "inputs": "Kiritish maydonlari (Input va Select)",
+    "badges": "Nishonlar (Badge va StatusDot)",
+    "spinners": "Yuklash indikatorlari (Spinner)",
+    "cards": "Kartalar (Card)",
+    "feedback": "Holat ko'rsatkichlari (EmptyState va ErrorState)",
+    "inputLabel": "Foydalanuvchi nomi",
+    "inputPlaceholder": "Masalan: ali_valiyev",
+    "inputHint": "Kamida 3 ta belgi",
+    "inputError": "Foydalanuvchi nomi band",
+    "selectLabel": "Rolni tanlang",
+    "selectOption1": "Talaba",
+    "selectOption2": "Ustoz",
+    "selectOption3": "Admin",
+    "sampleAction": "Harakat",
+    "emptyTitle": "Topshiriqlar mavjud emas",
+    "emptyDesc": "Sizda hozircha hech qanday faol topshiriq yo'q",
+    "createTask": "Yangi topshiriq",
+    "errorMessage": "Tarmoq bilan aloqa uzildi"
   }
 }

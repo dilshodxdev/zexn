@@ -62,7 +62,6 @@ const RULES = [
     id: "RAW_COLOR",
     // UI kit almashtiriladigan bo'lsin: ekranlarda faqat semantik tokenlar (bg-surface, text-muted...)
     files: path("apps/client/src/(screens|features)/%.tsx$"),
-    exclude: path("screens/home/HomeScreen.tsx$"), // T-003 gacha (kit kelganda olib tashlanadi)
     re: /\b(bg|text|border|ring|from|to|via|fill|stroke|divide|outline)-(gray|slate|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|white|black)(-\d{2,3})?\b|#[0-9a-fA-F]{3,8}\b/,
     msg: "xom rang (Tailwind palitra yoki hex) - faqat index.css @theme dagi semantik token",
   },

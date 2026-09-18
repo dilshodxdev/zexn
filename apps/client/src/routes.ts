@@ -4,6 +4,11 @@
  */
 export const ROUTES = {
   home: "/",
-  // 2-bosqich: login: "/login",
-  // 4-bosqich: student: "/student", teacher: "/teacher", admin: "/admin",
+  ...(import.meta.env.DEV
+    ? {
+        dev: {
+          uiKit: "/dev/ui",
+        },
+      }
+    : {}),
 } as const;

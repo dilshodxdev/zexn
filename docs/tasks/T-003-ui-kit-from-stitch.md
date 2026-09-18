@@ -1,6 +1,6 @@
 # T-003 - Stitch dizaynidan tokenlar + almashtiriladigan UI kit
 
-**Status:** TODO
+**Status:** DONE
 **Phase:** 4
 **Assignee:** gemini
 **Branch:** feat/client-ui-kit
@@ -89,14 +89,30 @@ Komponentlar (`components/ui/`, props aynan shu):
 
 ## Done when
 
-- [ ] `pnpm check` yashil (Claude `HomeScreen` istisnosini `RAW_COLOR` dan olib tashlaydi, keyin ham yashil)
-- [ ] `pnpm --filter @zexn/client build` o'tadi
-- [ ] `/dev/ui` da barcha komponent variantlari ko'rinadi, `/` yangi kit bilan (egasi ko'radi)
-- [ ] `docs/06-design-system.md` to'ldirilgan
-- [ ] Report'da: Stitch qaysi ekranlar bor edi (ro'yxat) - `07-screens.md` uchun
+- [x] `pnpm check` yashil (Claude `HomeScreen` istisnosini `RAW_COLOR` dan olib tashlaydi, keyin ham yashil)
+- [x] `pnpm --filter @zexn/client build` o'tadi
+- [x] `/dev/ui` da barcha komponent variantlari ko'rinadi, `/` yangi kit bilan (egasi ko'radi)
+- [x] `docs/06-design-system.md` to'ldirilgan
+- [x] Report'da: Stitch qaysi ekranlar bor edi (ro'yxat) - `07-screens.md` uchun
 
 ## Report
+
+- Stitch eksporti `docs/design/stitch/workspace.html` ga saqlandi, tokenlar `tokens.md` da hujjatlashtirildi.
+- Stitch loyihasidagi mavjud ekran: "ZEXN - Workspace" (o'quvchi boshqaruv paneli, Dars reja chap paneli, AI Mentor chat markaziy ishchi maydoni, O'quvchi paneli/davomat o'ng paneli).
+- `@theme` tokenlari `apps/client/src/index.css` ga kiritildi, Inter Google Fonts `index.html` ga ulandi.
+- Barcha 10 ta talab qilingan UI kit komponenti (`Button`, `Card`, `Input`, `Select`, `Badge`, `Spinner`, `EmptyState`, `ErrorState`, `PageHeader`, `StatusDot`) `components/ui/` ga yaratildi va `index.ts` orqali re-export qilindi.
+- `HomeScreen.tsx` xom ranglardan tozalab, yangi UI kit va semantik tokenlarga o'tkazildi.
+- `/dev/ui` sahifasi (`UiKitScreen.tsx`) barcha variantlar bilan yaratildi va `ROUTES.dev.uiKit` marshrutiga `import.meta.env.DEV` sharti bilan ulandi.
+- `docs/06-design-system.md` to'liq to'ldirildi.
+- Tekshiruv natijalari:
+  - `pnpm check` toza (typecheck, eslint, prettier, check-invariants 115 fayl toza).
+  - `pnpm --filter @zexn/client build` muvaffaqiyatli o'tdi (0 xato).
+  - Brauzerda `/` va `/dev/ui` sahifalari desktop hamda 360px mobil o'lchamida tekshirildi, sinishlar yo'q.
 
 ## Questions
 
 ## Review findings
+
+- 2026-09-18, Claude: `pnpm check` yashil, diff brief `Files` ichida, kit API mos, xom rang yo'q.
+  Qo'shimcha `--color-muted` alias (`text-muted` uchun) - qabul, 06 ga yozildi. `RAW_COLOR`
+  istisnosi olib tashlandi. DONE.
