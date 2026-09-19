@@ -6,6 +6,8 @@ unga mos keyingi o'quv qadamini beradigan AI platforma. Birinchi pilot: IT Park 
 **One class. Thirty different paths.** An AI platform that finds the root cause of every student's knowledge gap at
 skill level and gives them the right next learning step. First pilot: IT Park Khorezm.
 
+**Taqdimot / Presentation:** [TAQDIMOT/TAQDIMOT_ZEXN_AI.pdf](TAQDIMOT/TAQDIMOT_ZEXN_AI.pdf) - loyiha prezentatsiyasi (PDF, o'zbekcha) / project pitch deck (PDF, Uzbek).
+
 [O'zbekcha](#ozbekcha) | [English](#english)
 
 ---
