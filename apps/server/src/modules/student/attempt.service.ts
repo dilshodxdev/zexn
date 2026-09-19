@@ -3,6 +3,7 @@ import { AppError } from "../../lib/AppError.js";
 import { createAiProvider } from "../../lib/ai/index.js";
 import { analyzeAttempt } from "./analysis.service.js";
 import * as attemptRepository from "./attempt.repository.js";
+import { onAttemptFinished } from "../sdt/sdt.service.js";
 
 type AttemptTest = NonNullable<Awaited<ReturnType<typeof attemptRepository.findAttemptTest>>>;
 
@@ -182,6 +183,21 @@ export async function submitAttempt(
       streakRecord: Math.max(currentStats?.streakRecord ?? 0, streakDays),
       lastActiveDate: now,
     },
+  });
+
+  const groupedScores = new Map<string, { correct: number; total: number }>();
+  for (const answer of checkedAnswers) {
+    const current = groupedScores.get(answer.question.topicId) ?? { correct: 0, total: 0 };
+    current.total += 1;
+    if (answer.isCorrect) current.correct += 1;
+    groupedScores.set(answer.question.topicId, current);
+  }
+  await onAttemptFinished(centerId, studentId, {
+    attemptId: persisted.attempt.id,
+    topicScores: [...groupedScores].map(([topicId, score]) => ({
+      topicId,
+      score: Math.round((score.correct / score.total) * 100),
+    })),
   });
 
   return {

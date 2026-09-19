@@ -12,11 +12,8 @@ export function RegisterScreen() {
       {/* Top Header */}
       <header className="sticky top-0 z-30 border-b border-line bg-surface/80 backdrop-blur-md">
         <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4">
-          <Link to={ROUTES.home} className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-surface-alt text-brand border border-line font-bold">
-              Z
-            </div>
-            <span className="text-base font-bold tracking-wide text-text">ZEXN</span>
+          <Link to={ROUTES.home} className="flex items-center">
+            <img src="/logo-zexn.png" alt="ZEXN.ai" className="h-7 w-auto object-contain" />
           </Link>
           <div className="flex items-center gap-2">
             <Link to={ROUTES.login}>

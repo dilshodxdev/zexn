@@ -13,20 +13,31 @@ datasource db {
 
 /// O'quv markazi = tenant. Har markaz o'z izolyatsiyalangan workspace'iga ega.
 model Center {
-  id        String   @id @default(cuid())
-  name      String
+  id                    String    @id @default(cuid())
+  name                  String
   /// URL'da va loglarda ishlatiladigan qisqa unikal nom (masalan "itpark-xorazm")
-  slug      String   @unique
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  slug                  String    @unique
+  isActive              Boolean   @default(true)
+  mentorSystemPrompt    String    @default("")
+  promptUpdatedAt       DateTime?
+  promptUpdatedByUserId String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
 
-  memberships    Membership[]
-  testAttempts   TestAttempt[]
-  knowledgeGaps  KnowledgeGap[]
-  nextSteps      NextStep[]
-  studentStats   StudentStats[]
-  mentorMessages MentorMessage[]
+  promptUpdatedBy User? @relation("CenterPromptUpdatedBy", fields: [promptUpdatedByUserId], references: [id], onDelete: SetNull)
+
+  memberships     Membership[]
+  testAttempts    TestAttempt[]
+  knowledgeGaps   KnowledgeGap[]
+  nextSteps       NextStep[]
+  studentStats    StudentStats[]
+  mentorMessages  MentorMessage[]
+  assignments     Assignment[]
+  submissions     AssignmentSubmission[]
+  studentSkills   StudentSkill[]
+  studentPatterns StudentPattern[]
+  skillHistories  SkillHistory[]
+  interviews      InterviewSession[]
 
   @@map("centers")
 }
@@ -48,15 +59,37 @@ model User {
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
 
-  memberships    Membership[]
-  refreshTokens  RefreshToken[]
-  testAttempts   TestAttempt[]
-  knowledgeGaps  KnowledgeGap[]
-  nextSteps      NextStep[]
-  studentStats   StudentStats?
-  mentorMessages MentorMessage[]
+  memberships             Membership[]
+  refreshTokens           RefreshToken[]
+  testAttempts            TestAttempt[]
+  knowledgeGaps           KnowledgeGap[]
+  nextSteps               NextStep[]
+  studentStats            StudentStats?
+  mentorMessages          MentorMessage[]
+  createdAssignments      Assignment[]           @relation("AssignmentCreatedBy")
+  assignmentSubmissions   AssignmentSubmission[] @relation("SubmissionStudent")
+  reviewedSubmissions     AssignmentSubmission[] @relation("SubmissionReviewer")
+  targetedAssignments     Assignment[]           @relation("AssignmentTarget")
+  skills                  StudentSkill[]
+  patterns                StudentPattern[]
+  skillHistories          SkillHistory[]
+  centerPromptsUpdated    Center[]               @relation("CenterPromptUpdatedBy")
+  platformSettingsUpdated PlatformSetting[]
+  interviews              InterviewSession[]
 
   @@map("users")
+}
+
+/// Platforma darajasidagi sozlamalar - bitta qator (id = "default"). Super admin tahrirlaydi.
+model PlatformSetting {
+  id                 String   @id @default("default")
+  mentorSystemPrompt String   @default("")
+  updatedByUserId    String?
+  updatedAt          DateTime @updatedAt
+
+  updatedBy User? @relation(fields: [updatedByUserId], references: [id], onDelete: SetNull)
+
+  @@map("platform_settings")
 }
 
 /// Markaz ichidagi rol. Super admin bu yerda emas (User.isSuperAdmin).
@@ -128,6 +161,8 @@ model Topic {
   knowledgeGaps KnowledgeGap[]      @relation("GapTopic")
   rootGaps      KnowledgeGap[]      @relation("GapRootTopic")
   nextSteps     NextStep[]
+  assignments   Assignment[]
+  skills        Skill[]
 
   @@unique([subjectId, slug])
   @@index([subjectId, order])
@@ -261,22 +296,29 @@ model KnowledgeGap {
 }
 
 model NextStep {
-  id          String    @id @default(cuid())
-  centerId    String
-  studentId   String
-  gapId       String?
-  topicId     String
-  materialId  String?
-  instruction String
-  status      String
-  createdAt   DateTime  @default(now())
-  doneAt      DateTime?
+  id           String             @id @default(cuid())
+  centerId     String
+  studentId    String
+  gapId        String?
+  topicId      String
+  materialId   String?
+  instruction  String
+  status       String
+  createdAt    DateTime           @default(now())
+  doneAt       DateTime?
+  skillId      String?
+  actionType   NextStepActionType @default(REVIEW_MATERIAL)
+  priority     Int                @default(0)
+  reason       String?
+  assignmentId String?
 
-  center   Center        @relation(fields: [centerId], references: [id], onDelete: Cascade)
-  student  User          @relation(fields: [studentId], references: [id], onDelete: Cascade)
-  gap      KnowledgeGap? @relation(fields: [gapId], references: [id], onDelete: SetNull)
-  topic    Topic         @relation(fields: [topicId], references: [id], onDelete: Cascade)
-  material Material?     @relation(fields: [materialId], references: [id], onDelete: SetNull)
+  center     Center        @relation(fields: [centerId], references: [id], onDelete: Cascade)
+  student    User          @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  gap        KnowledgeGap? @relation(fields: [gapId], references: [id], onDelete: SetNull)
+  topic      Topic         @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  material   Material?     @relation(fields: [materialId], references: [id], onDelete: SetNull)
+  skill      Skill?        @relation(fields: [skillId], references: [id], onDelete: SetNull)
+  assignment Assignment?   @relation(fields: [assignmentId], references: [id], onDelete: SetNull)
 
   @@index([centerId, studentId, status, createdAt])
   @@map("next_steps")
@@ -312,4 +354,235 @@ model MentorMessage {
 
   @@index([centerId, studentId, createdAt])
   @@map("mentor_messages")
+}
+
+enum AssignmentDifficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum SubmissionStatus {
+  IN_PROGRESS
+  SUBMITTED
+  DONE
+}
+
+enum PatternStatus {
+  ACTIVE
+  IMPROVING
+  RESOLVED
+}
+
+enum NextStepActionType {
+  TARGETED_TASK
+  RETEST
+  REVIEW_MATERIAL
+}
+
+enum SkillHistorySource {
+  ATTEMPT
+  SUBMISSION
+  REVIEW
+  INTERVIEW
+  SEED
+}
+
+enum InterviewStatus {
+  IN_PROGRESS
+  DONE
+  ABANDONED
+}
+
+model Assignment {
+  id              String               @id @default(cuid())
+  centerId        String
+  topicId         String?
+  skillId         String?
+  targetStudentId String?
+  title           String
+  description     String
+  difficulty      AssignmentDifficulty
+  dueAt           DateTime
+  resources       Json                 @default("[]")
+  createdByUserId String
+  isActive        Boolean              @default(true)
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
+
+  center        Center                 @relation(fields: [centerId], references: [id], onDelete: Cascade)
+  topic         Topic?                 @relation(fields: [topicId], references: [id], onDelete: SetNull)
+  skill         Skill?                 @relation(fields: [skillId], references: [id], onDelete: SetNull)
+  targetStudent User?                  @relation("AssignmentTarget", fields: [targetStudentId], references: [id], onDelete: SetNull)
+  createdBy     User                   @relation("AssignmentCreatedBy", fields: [createdByUserId], references: [id])
+  submissions   AssignmentSubmission[]
+  nextSteps     NextStep[]
+
+  @@index([centerId, isActive, dueAt])
+  @@map("assignments")
+}
+
+model Skill {
+  id                     String @id @default(cuid())
+  key                    String @unique
+  name                   String
+  description            String
+  topicId                String
+  order                  Int
+  remediationTitle       String
+  remediationDescription String
+
+  topic         Topic              @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  prerequisites SkillDependency[]  @relation("SkillPrereqs")
+  requiredBy    SkillDependency[]  @relation("SkillRequiredBy")
+  errorPatterns ErrorPattern[]
+  studentSkills StudentSkill[]
+  histories     SkillHistory[]
+  nextSteps     NextStep[]
+  assignments   Assignment[]
+  interviews    InterviewSession[]
+
+  @@index([topicId])
+  @@map("skills")
+}
+
+model SkillDependency {
+  skillId             String
+  prerequisiteSkillId String
+
+  skill        Skill @relation("SkillPrereqs", fields: [skillId], references: [id], onDelete: Cascade)
+  prerequisite Skill @relation("SkillRequiredBy", fields: [prerequisiteSkillId], references: [id], onDelete: Cascade)
+
+  @@id([skillId, prerequisiteSkillId])
+  @@map("skill_dependencies")
+}
+
+model ErrorPattern {
+  id          String @id @default(cuid())
+  code        String @unique
+  name        String
+  description String
+  skillId     String
+
+  skill           Skill            @relation(fields: [skillId], references: [id], onDelete: Cascade)
+  studentPatterns StudentPattern[]
+
+  @@map("error_patterns")
+}
+
+model StudentSkill {
+  id              String    @id @default(cuid())
+  centerId        String
+  studentId       String
+  skillId         String
+  masteryScore    Int       @default(50)
+  confidence      Float     @default(0)
+  attempts        Int       @default(0)
+  correctAttempts Int       @default(0)
+  lastActivityAt  DateTime?
+  updatedAt       DateTime  @updatedAt
+
+  center  Center @relation(fields: [centerId], references: [id], onDelete: Cascade)
+  student User   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  skill   Skill  @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, skillId])
+  @@index([centerId, studentId])
+  @@map("student_skills")
+}
+
+model StudentPattern {
+  id             String        @id @default(cuid())
+  centerId       String
+  studentId      String
+  patternId      String
+  occurrences    Int           @default(0)
+  resolvedCount  Int           @default(0)
+  status         PatternStatus @default(ACTIVE)
+  lastDetectedAt DateTime
+  updatedAt      DateTime      @updatedAt
+
+  center  Center       @relation(fields: [centerId], references: [id], onDelete: Cascade)
+  student User         @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  pattern ErrorPattern @relation(fields: [patternId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, patternId])
+  @@index([centerId, studentId, status])
+  @@map("student_patterns")
+}
+
+model SkillHistory {
+  id                 String             @id @default(cuid())
+  centerId           String
+  studentId          String
+  skillId            String
+  previousScore      Int
+  newScore           Int
+  source             SkillHistorySource
+  label              String
+  sourceSubmissionId String?
+  sourceAttemptId    String?
+  createdAt          DateTime           @default(now())
+
+  center  Center @relation(fields: [centerId], references: [id], onDelete: Cascade)
+  student User   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  skill   Skill  @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  @@index([centerId, studentId, createdAt])
+  @@map("skill_histories")
+}
+
+/// AI texnik intervyu sessiyasi. Savol-javoblar InterviewTurn[] JSON shaklida saqlanadi.
+model InterviewSession {
+  id            String          @id @default(cuid())
+  centerId      String
+  studentId     String
+  skillId       String?
+  track         String          @default("frontend")
+  level         String
+  status        InterviewStatus @default(IN_PROGRESS)
+  questionCount Int             @default(5)
+  turns         Json            @default("[]")
+  score         Int?
+  summary       String?
+  strengths     Json            @default("[]")
+  weaknesses    Json            @default("[]")
+  masteryBefore Int?
+  masteryAfter  Int?
+  startedAt     DateTime        @default(now())
+  finishedAt    DateTime?
+  updatedAt     DateTime        @updatedAt
+
+  center  Center @relation(fields: [centerId], references: [id], onDelete: Cascade)
+  student User   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  skill   Skill? @relation(fields: [skillId], references: [id], onDelete: SetNull)
+
+  @@index([centerId, studentId, startedAt])
+  @@map("interview_sessions")
+}
+
+model AssignmentSubmission {
+  id               String           @id @default(cuid())
+  centerId         String
+  assignmentId     String
+  studentId        String
+  status           SubmissionStatus
+  progress         Int              @default(0)
+  content          String           @default("")
+  score            Int?
+  feedback         String?
+  submittedAt      DateTime?
+  reviewedAt       DateTime?
+  reviewedByUserId String?
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  center     Center     @relation(fields: [centerId], references: [id], onDelete: Cascade)
+  assignment Assignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  student    User       @relation("SubmissionStudent", fields: [studentId], references: [id], onDelete: Cascade)
+  reviewedBy User?      @relation("SubmissionReviewer", fields: [reviewedByUserId], references: [id], onDelete: SetNull)
+
+  @@unique([assignmentId, studentId])
+  @@index([centerId, studentId, status])
+  @@map("assignment_submissions")
 }

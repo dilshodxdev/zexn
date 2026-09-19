@@ -11,6 +11,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@monaco-editor/react": "^4.7.0",
     "@tanstack/react-query": "^5.80.0",
     "@zexn/shared": "workspace:*",
     "axios": "^1.10.0",

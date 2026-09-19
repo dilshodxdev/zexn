@@ -6,3 +6,7 @@ export * from "./health.js";
 export * from "./auth.js";
 export * from "./admin.js";
 export * from "./student.js";
+export * from "./assignments.js";
+export * from "./sdt.js";
+export * from "./settings.js";
+export * from "./interview.js";

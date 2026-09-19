@@ -1,0 +1,107 @@
+{
+  "title": "AI Intervyu",
+  "subtitle": "Texnik sohangiz bo'yicha sun'iy intellekt orqali 3 nazariy va 2 kod topshirig'idan iborat intervyu topshiring.",
+  "activeSession": {
+    "title": "Tugallanmagan intervyu mavjud",
+    "desc": "{{track}} bo'yicha boshlangan intervyu to'xtab qolgan (savol: {{answered}}/{{total}}).",
+    "resume": "Davom ettirish"
+  },
+  "tracks": {
+    "frontend": "Frontend dasturlash",
+    "backend": "Backend dasturlash",
+    "mobile": "Mobil dasturlash",
+    "fullstack": "Fullstack dasturlash",
+    "android": "Android dasturlash",
+    "ios": "iOS dasturlash"
+  },
+  "trackDescriptions": {
+    "frontend": "HTML, CSS, JavaScript, React, State boshqaruvi va brauzer arxitekturasi",
+    "backend": "Node.js, Express, REST API, Ma'lumotlar bazasi, SQL va xavfsizlik",
+    "mobile": "Flutter, React Native, Dart, mobil ekranlar va API integratsiyasi",
+    "fullstack": "Frontend va backend integratsiyasi, API arxitekturasi va monorepo",
+    "android": "Kotlin, Jetpack Compose, Android hayot sikli va coroutines",
+    "ios": "Swift, SwiftUI, UIKit hayot sikli va zamonaviy async/await"
+  },
+  "kind": {
+    "theory": "Nazariy",
+    "code": "Kod topshirig'i"
+  },
+  "level": {
+    "easy": "Oson",
+    "medium": "O'rta",
+    "hard": "Murakkab"
+  },
+  "picker": {
+    "title": "Intervyu sohasini tanlang",
+    "subtitle": "Har bir intervyu 5 ta savoldan (3 nazariy va 2 kod topshirig'i) iborat.",
+    "languagesLabel": "Texnologiyalar:",
+    "bestScore": "Eng yaxshi: {{score}}%",
+    "lastScore": "Oxirgi: {{score}}%",
+    "noAttempts": "Hali topshirilmagan",
+    "attemptsCount": "{{count}} ta intervyu",
+    "frontendOptions": "Frontend parametrlari",
+    "optionalSkill": "SDT ko'nikmasiga bog'lash (ixtiyoriy):",
+    "allSkills": "Umumiy frontend (skill bog'lanmaydi)",
+    "selectLevel": "Qiyinlik darajasini tanlang:",
+    "startTrack": "{{track}} intervyusini boshlash",
+    "starting": "Boshlanmoqda..."
+  },
+  "chat": {
+    "progress": "{{current}} / {{total}} savol",
+    "aiThinking": "AI savol tayyorlamoqda...",
+    "aiEvaluating": "AI javobingizni baholamoqda...",
+    "placeholder": "Nazariy javobingizni yozing (Ctrl+Enter yuboradi)...",
+    "send": "Yuborish",
+    "sendCode": "Kodni yuborish",
+    "abandon": "Chiqish",
+    "abandonConfirmTitle": "Intervyuni to'xtatmoqchimisiz?",
+    "abandonConfirmDesc": "Agar chiqib ketsangiz, bu sessiya bekor qilinadi va SDT ko'rsatkichlaringizga ta'sir qilmaydi.",
+    "abandonYes": "Ha, chiqish",
+    "abandonNo": "Davom etish",
+    "modelAnswerTitle": "To'g'ri javob namunasi",
+    "modelAnswerShow": "Namunani ko'rish",
+    "modelAnswerHide": "Namunani yashirish",
+    "scoreLabel": "{{score}} ball",
+    "gradeGood": "Yaxshi",
+    "gradeAverage": "O'rtacha",
+    "gradeNeedsWork": "Qayta ko'rish kerak",
+    "aiUnavailable": "AI xizmati vaqtincha band yoki javob bermadi. Iltimos, qayta urinib ko'ring.",
+    "retry": "Qayta urinish",
+    "emptyQuestion": "Savol mavjud emas",
+    "codeEditorHint": "Kodingizni to'ldiring va 'Kodni yuborish' tugmasini bosing:"
+  },
+  "result": {
+    "title": "Intervyu yakunlandi",
+    "subtitle": "{{track}} bo'yicha umumiy natijangiz",
+    "scoreLabel": "Umumiy ball",
+    "theoryScoreLabel": "Nazariy savollar",
+    "codeScoreLabel": "Kod topshiriqlari",
+    "summaryTitle": "AI xulosasi",
+    "strengthsTitle": "Kuchli tomonlar",
+    "weaknessesTitle": "E'tibor qaratish kerak bo'lgan tomonlar",
+    "noStrengths": "Maxsus kuchli tomonlar qayd etilmadi",
+    "noWeaknesses": "Katta kamchiliklar aniqlanmadi",
+    "sdtUpdatedTitle": "SDT yangilandi",
+    "sdtChangeIncreased": "{{skill}}: {{before}}% dan {{after}}% ga oshdi (+{{diff}}%)",
+    "sdtChangeDecreased": "{{skill}}: {{before}}% dan {{after}}% ga tushdi ({{diff}}%)",
+    "sdtChangeUnchanged": "{{skill}}: {{before}}% o'zgarishsiz qoldi",
+    "again": "Yana bir intervyu",
+    "backHome": "Bosh sahifaga qaytish",
+    "abandonedTitle": "Intervyu bekor qilingan",
+    "abandonedDesc": "Bu intervyu oxirigacha topshirilmadi."
+  },
+  "history": {
+    "title": "Oldingi intervyular",
+    "empty": "Hali birorta ham intervyu topshirilmagan",
+    "score": "{{score}} ball",
+    "noScore": "Baho yo'q",
+    "questionsProgress": "{{answered}} / {{total}} savol",
+    "status": {
+      "IN_PROGRESS": "Jarayonda",
+      "DONE": "Tugallangan",
+      "ABANDONED": "Bekor qilingan"
+    }
+  },
+  "loading": "Intervyu ma'lumotlari yuklanmoqda...",
+  "error": "Intervyuni yuklashda xatolik yuz berdi"
+}

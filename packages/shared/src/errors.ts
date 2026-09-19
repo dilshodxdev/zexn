@@ -18,6 +18,10 @@ export const API_ERROR_CODES = {
   TOKEN_EXPIRED: "TOKEN_EXPIRED",
   TENANT_REQUIRED: "TENANT_REQUIRED",
   RATE_LIMITED: "RATE_LIMITED",
+  /** Holat eskirgan: masalan DONE vazifani qayta topshirish (409). Client ro'yxatni yangilaydi. */
+  CONFLICT: "CONFLICT",
+  /** AI provayder javob bermadi / kalit noto'g'ri (503). Client "keyinroq urinib ko'ring" ko'rsatadi. */
+  AI_UNAVAILABLE: "AI_UNAVAILABLE",
 } as const;
 
 export type ApiErrorCode = (typeof API_ERROR_CODES)[keyof typeof API_ERROR_CODES];

@@ -9,6 +9,8 @@ import {
 import { requireAuth, requireRole } from "../../middleware/auth.js";
 import { requireTenant } from "../../middleware/tenant.js";
 import { validate } from "../../middleware/validate.js";
+import { studentAssignmentsRouter } from "../assignments/assignments.routes.js";
+import { interviewRouter } from "../interview/interview.routes.js";
 import * as attemptController from "./attempt.controller.js";
 import * as mentorController from "./mentor.controller.js";
 import * as controller from "./student.controller.js";
@@ -16,6 +18,8 @@ import * as controller from "./student.controller.js";
 export const studentRouter = Router();
 
 studentRouter.use(requireAuth, requireTenant, requireRole("STUDENT"));
+studentRouter.use("/assignments", studentAssignmentsRouter);
+studentRouter.use("/interviews", interviewRouter);
 studentRouter.get("/overview", validate({}), controller.getOverview);
 studentRouter.get("/topics/:topicId", validate({ params: topicParamsSchema }), controller.getTopic);
 studentRouter.get("/tests", validate({}), controller.getTests);

@@ -15,3 +15,11 @@ export function formatDateTime(iso: string): string {
     second: "2-digit",
   }).format(new Date(iso));
 }
+
+/** Berilgan sanagacha necha kun qolganini hisoblaydi (manfiy bo'lsa muddat o'tgan) */
+export function daysUntil(iso: string): number {
+  const target = new Date(iso).getTime();
+  const now = Date.now();
+  const diffMs = target - now;
+  return Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+}

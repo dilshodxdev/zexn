@@ -1,0 +1,118 @@
+{
+  "title": "SDT",
+  "back": "Orqaga",
+  "backToTasks": "Vazifalarga qaytish",
+  "notFound": "O'quvchi topilmadi",
+  "notFoundDesc": "Bunday SDT ma'lumoti mavjud emas yoki o'quvchi topilmadi",
+  "errorLoad": "SDT ma'lumotlarini yuklashda xatolik yuz berdi",
+  "class": {
+    "eyebrow": "Student Digital Twin",
+    "title": "SDT o'quvchilar markazi",
+    "subtitle": "O'quvchilarni toping, holatini bir qarashda solishtiring va shaxsiy SDT sahifasiga o'ting.",
+    "atRisk": "E'tibor talab qiladi",
+    "outOfStudents": "{{count}} o'quvchidan",
+    "weakestSkill": "Eng zaif skill",
+    "weakSkillMeta": "{{count}} o'quvchi, o'rtacha {{mastery}}%",
+    "noWeakSkill": "Umumiy zaif skill yo'q",
+    "commonPattern": "Eng ko'p pattern",
+    "patternMeta": "{{count}} o'quvchida aniqlangan",
+    "noPattern": "Faol pattern yo'q",
+    "none": "-",
+    "actionsTitle": "Tavsiya etilgan harakatlar",
+    "actionsSubtitle": "Sinf holatiga qarab keyingi qadamlar",
+    "noActions": "Hozircha tavsiya etilgan harakat yo'q",
+    "actionType": {
+      "GROUP_LESSON": "Guruh darsi",
+      "TARGETED_TASKS": "Maqsadli vazifalar",
+      "RETEST": "Qayta test"
+    },
+    "studentsTitle": "O'quvchilar",
+    "studentsCount": "{{count}} ta faol o'quvchi",
+    "searchPlaceholder": "O'quvchi yoki loginni qidirish...",
+    "filterAll": "Barchasi",
+    "filterRisk": "E'tibordagilar",
+    "searchEmpty": "Qidiruv bo'yicha o'quvchi topilmadi",
+    "empty": "Markazda faol o'quvchi yo'q",
+    "emptyDescription": "Faol o'quvchilar qo'shilgach SDT ko'rsatkichlari shu yerda chiqadi.",
+    "overallMastery": "Umumiy o'zlashtirish",
+    "riskBadge": "Xavfda",
+    "stableBadge": "Barqaror",
+    "weakestSkillShort": "Zaif skill",
+    "patternsShort": "Patternlar",
+    "errorLoad": "Sinf SDT ma'lumotlarini yuklab bo'lmadi"
+  },
+  "header": {
+    "confidence": "{{percent}}% ishonch",
+    "noEvidence": "Hali dalil yo'q",
+    "masteryLabel": "O'zlashtirish"
+  },
+  "currentState": {
+    "title": "{{name}} hozir qayerda?",
+    "mastery": "O'zlashtirish",
+    "level": "Daraja: {{level}}"
+  },
+  "nextStep": {
+    "title": "ZEXN tavsiyasi",
+    "empty": "Hozircha tavsiya yo'q - hamma skill yaxshi holatda",
+    "reasonLabel": "Sabab:",
+    "assignTask": "Vazifa yubor",
+    "assigned": "Yuborildi",
+    "viewTask": "Vazifani ko'rish",
+    "retest": "Qayta tekshir",
+    "sendNote": "Izoh yubor",
+    "notePlaceholder": "O'quvchiga izoh yozing...",
+    "send": "Yuborish",
+    "cancel": "Bekor qilish",
+    "sentSuccess": "Yuborildi",
+    "otherSteps": "Boshqa tavsiyalar",
+    "actionType": {
+      "TARGETED_TASK": "Maqsadli vazifa",
+      "RETEST": "Qayta tekshiruv",
+      "REVIEW_MATERIAL": "Materialni takrorlash"
+    }
+  },
+  "skillMap": {
+    "title": "Skill xaritasi",
+    "strong": "Kuchli",
+    "developing": "Rivojlanmoqda",
+    "weak": "Bo'shliqlar",
+    "unassessed": "Hali baholanmagan",
+    "noSkills": "Skill mavjud emas"
+  },
+  "patterns": {
+    "title": "Aniqlangan patternlar",
+    "detectedCount": "{{count}} marta aniqlangan",
+    "affectsSkill": "{{skill}} skilliga ta'sir qilmoqda",
+    "lastDetected": "Oxirgi aniqlangan: {{date}}",
+    "noPatterns": "Aniqlangan xato patternlar yo'q",
+    "status": {
+      "ACTIVE": "Faol",
+      "IMPROVING": "Yaxshilanmoqda",
+      "RESOLVED": "Tuzatildi"
+    }
+  },
+  "timeline": {
+    "title": "Progress tarixi",
+    "empty": "Hozircha tarix yo'q",
+    "sources": {
+      "INTERVIEW": "AI Intervyu",
+      "ASSIGNMENT": "Vazifa",
+      "TEST": "Test",
+      "MANUAL": "Qo'lda",
+      "REVIEW": "Kod review",
+      "SEED": "Boshlang'ich"
+    }
+  },
+  "interviews": {
+    "title": "AI intervyular",
+    "subtitle": "O'quvchining ko'nikmalar bo'yicha topshirgan AI intervyulari natijalari",
+    "empty": "Hozircha intervyular mavjud emas",
+    "score": "{{score}} ball",
+    "noScore": "Baholanmagan",
+    "status": {
+      "IN_PROGRESS": "Jarayonda",
+      "DONE": "Tugallangan",
+      "ABANDONED": "Bekor qilingan"
+    }
+  }
+}

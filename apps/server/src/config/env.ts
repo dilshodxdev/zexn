@@ -6,24 +6,39 @@ import { z } from "zod";
  *
  * Qoida: process.env ga to'g'ridan-to'g'ri murojaat faqat shu faylda. Qolgan kod `env` ni import qiladi.
  */
-const envSchema = z.object({
-  NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
-  PORT: z.coerce.number().int().positive().default(4000),
-  DATABASE_URL: z.string().url({ message: "DATABASE_URL postgresql:// URL bo'lishi kerak" }),
-  /** Vergul bilan bir nechta origin. Dev'da localhost:5173 avtomatik qo'shiladi (app.ts). */
-  CLIENT_ORIGIN: z
-    .string()
-    .default("")
-    .transform((s) =>
-      s
-        .split(",")
-        .map((o) => o.trim())
-        .filter(Boolean),
-    ),
-  JWT_ACCESS_SECRET: z.string().min(32),
-  JWT_REFRESH_SECRET: z.string().min(32),
-  TELEGRAM_BOT_TOKEN: z.string().optional(),
-});
+const envSchema = z
+  .object({
+    NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
+    PORT: z.coerce.number().int().positive().default(4000),
+    DATABASE_URL: z.string().url({ message: "DATABASE_URL postgresql:// URL bo'lishi kerak" }),
+    /** Vergul bilan bir nechta origin. Dev'da localhost:5173 avtomatik qo'shiladi (app.ts). */
+    CLIENT_ORIGIN: z
+      .string()
+      .default("")
+      .transform((s) =>
+        s
+          .split(",")
+          .map((o) => o.trim())
+          .filter(Boolean),
+      ),
+    JWT_ACCESS_SECRET: z.string().min(32),
+    JWT_REFRESH_SECRET: z.string().min(32),
+    TELEGRAM_BOT_TOKEN: z.string().optional(),
+    AI_PROVIDER: z.enum(["mock", "deepseek"]).default("mock"),
+    DEEPSEEK_API_KEY: z.string().default(""),
+    DEEPSEEK_MODEL: z.string().min(1).default("deepseek-chat"),
+    DEEPSEEK_BASE_URL: z.string().url().default("https://api.deepseek.com"),
+    AI_TIMEOUT_MS: z.coerce.number().int().positive().default(20_000),
+  })
+  .superRefine((value, context) => {
+    if (value.AI_PROVIDER === "deepseek" && value.DEEPSEEK_API_KEY.trim() === "") {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["DEEPSEEK_API_KEY"],
+        message: "AI_PROVIDER=deepseek bo'lsa kalit majburiy",
+      });
+    }
+  });
 
 export type Env = z.infer<typeof envSchema>;
 

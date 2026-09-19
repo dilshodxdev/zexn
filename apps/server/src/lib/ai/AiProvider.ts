@@ -1,3 +1,5 @@
+import type { InterviewLanguage, InterviewQuestionKind, InterviewTrack } from "@zexn/shared";
+
 /**
  * AI qatlami interfeysi. Hackathon'da bitta provayder, keyin almashtirish oson bo'lsin.
  * Deterministik tahlil (prerequisite graf + statistika) bu yerda EMAS - u service'da.
@@ -39,10 +41,66 @@ export interface ChatInput {
   message: string;
 }
 
+export type InterviewLevel = "easy" | "medium" | "hard";
+
+export interface InterviewQuestionInput {
+  skill: string | null;
+  topic: string | null;
+  track: InterviewTrack;
+  topics: string;
+  kind: InterviewQuestionKind;
+  languages: readonly InterviewLanguage[];
+  level: InterviewLevel;
+  index: number;
+  total: number;
+  previous: Array<{ question: string; answer: string; score: number }>;
+  platformPrompt: string;
+}
+
+export interface InterviewEvaluationInput {
+  skill: string | null;
+  track: InterviewTrack;
+  level: InterviewLevel;
+  kind: InterviewQuestionKind;
+  language: InterviewLanguage | null;
+  starterCode: string | null;
+  question: string;
+  answer: string;
+  platformPrompt: string;
+}
+
+export interface InterviewSummaryInput {
+  skill: string | null;
+  track: InterviewTrack;
+  turns: Array<{ question: string; answer: string; score: number }>;
+  platformPrompt: string;
+}
+
+export interface InterviewQuestionResult {
+  question: string;
+  language?: InterviewLanguage;
+  starterCode?: string;
+}
+
+export interface InterviewEvaluationResult {
+  score: number;
+  feedback: string;
+  modelAnswer: string | null;
+}
+
+export interface InterviewSummaryResult {
+  summary: string;
+  strengths: string[];
+  weaknesses: string[];
+}
+
 export interface AiProvider {
   /** Provayder nomi (log va debug uchun) */
   readonly name: string;
   explainRootCause(input: RootCauseInput): Promise<RootCauseExplanation>;
   suggestNextStep(input: NextStepInput): Promise<NextStepSuggestion>;
   chat(input: ChatInput): Promise<string>;
+  interviewQuestion(input: InterviewQuestionInput): Promise<InterviewQuestionResult>;
+  interviewEvaluate(input: InterviewEvaluationInput): Promise<InterviewEvaluationResult>;
+  interviewSummary(input: InterviewSummaryInput): Promise<InterviewSummaryResult>;
 }

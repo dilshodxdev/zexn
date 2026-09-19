@@ -39,6 +39,16 @@ export const requireAuth: RequestHandler = (req, _res, next) => {
   authenticate(req).then(() => next(), next);
 };
 
+export const requireSuperAdmin: RequestHandler = (req, _res, next) => {
+  if (!req.user) {
+    return next(new AppError(401, "Avtorizatsiya talab qilinadi", API_ERROR_CODES.UNAUTHORIZED));
+  }
+  if (!req.user.isSuperAdmin) {
+    return next(new AppError(403, "Ruxsat yetarli emas", API_ERROR_CODES.FORBIDDEN));
+  }
+  next();
+};
+
 export function requireRole(...roles: Role[]): RequestHandler {
   return (req, _res, next) => {
     if (!req.user) {

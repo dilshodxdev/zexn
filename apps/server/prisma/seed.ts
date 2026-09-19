@@ -3,7 +3,9 @@
 // Ishga tushirish: pnpm --filter @zexn/server exec prisma db seed
 import { PrismaClient, Role } from "@prisma/client";
 import bcrypt from "bcrypt";
+import { seedAssignments } from "./seed-data/assignments.js";
 import { assertAcyclicTopics, reactCourse } from "./seed-data/react-course.js";
+import { seedSdt } from "./seed-data/sdt.js";
 
 const prisma = new PrismaClient();
 
@@ -230,6 +232,8 @@ async function main() {
   }
 
   await seedReactCourse();
+  if (seedDevPasswords) await seedAssignments(prisma, center.id);
+  await seedSdt(prisma, center.id, seedDevPasswords);
 
   console.info(`Seed tayyor: markaz "${center.name}", ${users.length} ta foydalanuvchi.`);
 }

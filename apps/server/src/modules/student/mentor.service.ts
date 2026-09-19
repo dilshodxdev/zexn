@@ -5,13 +5,17 @@ import {
   type SendMentorMessageBody,
 } from "@zexn/shared";
 import { AppError } from "../../lib/AppError.js";
+import { buildMentorContext } from "../../lib/ai/context-builder.js";
 import { createAiProvider } from "../../lib/ai/index.js";
+import * as settingsRepository from "../settings/settings.repository.js";
 import * as mentorRepository from "./mentor.repository.js";
 import * as studentRepository from "./student.repository.js";
 
 const RATE_LIMIT = 10;
 const RATE_WINDOW_MS = 60_000;
+const GREETING_TIMEOUT_MS = 8_000;
 const messageTimes = new Map<string, number[]>();
+const greetingRequests = new Map<string, Promise<void>>();
 
 function enforceRateLimit(centerId: string, studentId: string): void {
   const key = `${centerId}:${studentId}`;
@@ -37,13 +41,15 @@ function mapMessage(message: {
 }): MentorMessage {
   return {
     id: message.id,
-    role: message.role === "mentor" ? "mentor" : "student",
-    text: message.text,
+    role: message.role === "mentor" || message.role === "teacher" ? "mentor" : "student",
+    text: message.role === "teacher" ? `O'qituvchi: ${message.text}` : message.text,
     createdAt: message.createdAt.toISOString(),
   };
 }
 
-function buildSystemPrompt(
+export function buildSystemPrompt(
+  platformPrompt: string,
+  centerPrompt: string,
   studentName: string,
   courseTitle: string,
   weakTopics: Array<{
@@ -51,23 +57,18 @@ function buildSystemPrompt(
     material: { title: string; url: string } | null;
   }>,
   nextStepInstruction: string,
+  codeReview: boolean,
 ): string {
-  const weakTopicLines = weakTopics.length
-    ? weakTopics
-        .map(
-          ({ title, material }) =>
-            `- ${title}${material ? ` | ${material.title} | ${material.url}` : ""}`,
-        )
-        .join("\n")
-    : "Zaif mavzu aniqlanmagan.";
-  return [
-    "Siz o'quvchiga qisqa va tushunarli o'zbekcha javob beradigan AI mentorsiz.",
-    `O'quvchi: ${studentName}`,
-    `Kurs: ${courseTitle}`,
-    "Zaif mavzular va materiallar:",
-    weakTopicLines,
-    `Joriy keyingi qadam: ${nextStepInstruction}`,
-  ].join("\n");
+  // Prompt matni context-builder'da (lib/ai/context-builder.ts) - bu yerda faqat ma'lumot uzatiladi.
+  return buildMentorContext({
+    settings: { platformPrompt, centerPrompt },
+    student: { fullName: studentName, courseTitle, weakTopics, nextStepInstruction },
+    codeReview,
+  });
+}
+
+function containsCodeBlock(text: string): boolean {
+  return /```[^\n`]*\n[\s\S]+?```/.test(text);
 }
 
 function isWeakTopic(
@@ -85,11 +86,99 @@ function isWeakTopic(
     : topic.knowledgeGaps.length > 0;
 }
 
+function tashkentDateKey(value: Date): string {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Tashkent",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(value);
+}
+
+function isToday(value: Date): boolean {
+  return tashkentDateKey(value) === tashkentDateKey(new Date());
+}
+
+async function createGreeting(centerId: string, studentId: string): Promise<void> {
+  const latestMessages = await mentorRepository.findRecentMessages(centerId, studentId, 1);
+  if (latestMessages[0] && isToday(latestMessages[0].createdAt)) return;
+
+  const [student, course, nextStep, platformPrompt, centerPrompt] = await Promise.all([
+    studentRepository.findStudent(studentId),
+    studentRepository.findActiveCourse(centerId, studentId),
+    studentRepository.findLatestNextStep(centerId, studentId),
+    settingsRepository.findPlatformPrompt(),
+    settingsRepository.findCenterPrompt(centerId),
+  ]);
+  if (!student) {
+    throw new AppError(404, "O'quvchi topilmadi", API_ERROR_CODES.NOT_FOUND);
+  }
+  if (!course) {
+    throw new AppError(404, "Faol kurs topilmadi", API_ERROR_CODES.NOT_FOUND);
+  }
+
+  const nextStepInstruction = nextStep?.instruction ?? "hozircha keyingi qadam belgilanmagan";
+  const weakTopics = course.topics.filter(isWeakTopic).map((topic) => ({
+    title: topic.title,
+    material: topic.materials[0]
+      ? { title: topic.materials[0].title, url: topic.materials[0].url }
+      : null,
+  }));
+  const system = `${buildSystemPrompt(
+    platformPrompt,
+    centerPrompt,
+    student.fullName,
+    course.title,
+    weakTopics,
+    nextStepInstruction,
+    false,
+  )}\nBu suhbatning birinchi xabari. O'quvchi hali hech narsa yozmagan.`;
+  const fallback = `Salom, ${student.fullName}! 👋 Ishlar yaxshimi? Bugun nima o'tamiz - o'zing aytasanmi yoki men taklif qilaymi? (Keyingi qadaming: ${nextStepInstruction})`;
+
+  let timeout: ReturnType<typeof setTimeout> | undefined;
+  let text = fallback;
+  try {
+    const timeoutPromise = new Promise<never>((_, reject) => {
+      timeout = setTimeout(() => reject(new Error("AI_TIMEOUT")), GREETING_TIMEOUT_MS);
+    });
+    text = await Promise.race([
+      createAiProvider().chat({
+        system,
+        history: [],
+        message:
+          "[tizim] O'quvchi chatni ochdi. Salomlash, hol-ahvol so'ra, bugungi reja haqida so'ra (o'zi aytadimi yoki sen taklif qilasanmi). 2-3 gap.",
+      }),
+      timeoutPromise,
+    ]);
+  } catch {
+    text = fallback;
+  } finally {
+    if (timeout) clearTimeout(timeout);
+  }
+
+  const recheckedMessages = await mentorRepository.findRecentMessages(centerId, studentId, 1);
+  if (recheckedMessages[0] && isToday(recheckedMessages[0].createdAt)) return;
+  await mentorRepository.createMessage(centerId, studentId, "mentor", text);
+}
+
+export async function ensureGreeting(centerId: string, studentId: string): Promise<void> {
+  const key = `${centerId}:${studentId}`;
+  const pending = greetingRequests.get(key);
+  if (pending) return pending;
+
+  const request = createGreeting(centerId, studentId).finally(() => {
+    greetingRequests.delete(key);
+  });
+  greetingRequests.set(key, request);
+  return request;
+}
+
 export async function getMessages(
   centerId: string,
   studentId: string,
   requestedLimit: number,
 ): Promise<MentorMessage[]> {
+  await ensureGreeting(centerId, studentId);
   const limit = Number.isInteger(requestedLimit) && requestedLimit > 0 ? requestedLimit : 50;
   const messages = await mentorRepository.findRecentMessages(
     centerId,
@@ -111,12 +200,15 @@ export async function sendMessage(
     "student",
     body.text,
   );
-  const [student, course, nextStep, recentMessages] = await Promise.all([
-    studentRepository.findStudent(studentId),
-    studentRepository.findActiveCourse(centerId, studentId),
-    studentRepository.findLatestNextStep(centerId, studentId),
-    mentorRepository.findRecentMessages(centerId, studentId, 10, studentMessage.id),
-  ]);
+  const [student, course, nextStep, recentMessages, platformPrompt, centerPrompt] =
+    await Promise.all([
+      studentRepository.findStudent(studentId),
+      studentRepository.findActiveCourse(centerId, studentId),
+      studentRepository.findLatestNextStep(centerId, studentId),
+      mentorRepository.findRecentMessages(centerId, studentId, 10, studentMessage.id),
+      settingsRepository.findPlatformPrompt(),
+      settingsRepository.findCenterPrompt(centerId),
+    ]);
   if (!student) {
     throw new AppError(404, "O'quvchi topilmadi", API_ERROR_CODES.NOT_FOUND);
   }
@@ -131,9 +223,20 @@ export async function sendMessage(
       ? { title: topic.materials[0].title, url: topic.materials[0].url }
       : null,
   }));
-  const system = buildSystemPrompt(student.fullName, course.title, weakTopics, nextStepInstruction);
+  const system = buildSystemPrompt(
+    platformPrompt,
+    centerPrompt,
+    student.fullName,
+    course.title,
+    weakTopics,
+    nextStepInstruction,
+    containsCodeBlock(body.text),
+  );
   const history = recentMessages.reverse().map((message) => ({
-    role: message.role === "mentor" ? ("mentor" as const) : ("student" as const),
+    role:
+      message.role === "mentor" || message.role === "teacher"
+        ? ("mentor" as const)
+        : ("student" as const),
     text: message.text,
   }));
 

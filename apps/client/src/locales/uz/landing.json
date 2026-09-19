@@ -1,44 +1,70 @@
 {
   "header": {
-    "brand": "@ZEXN",
-    "meta1Title": "ZEXN AI",
-    "meta1Sub": "Shaxsiy ta'lim",
-    "meta2Title": "Biznes taklif",
-    "meta2Sub": "Taqdimot",
-    "year": "2026",
+    "brand": "ZEXN",
     "login": "Kirish",
-    "start": "Boshlash"
+    "start": "Boshlash",
+    "nav": {
+      "product": "Mahsulot",
+      "solutions": "Yechimlar",
+      "partners": "Hamkorlik",
+      "about": "Biz haqimizda"
+    }
+  },
+  "intro": {
+    "taglineBrand": "ZEXN",
+    "tagline": "har o'quvchining bilimidagi bo'shliqni topib, keyingi qadamni beramiz",
+    "subline": "Ta'lim uchun AI. Bir sinf. O'ttiz xil yo'l.",
+    "scroll": "Kashf eting",
+    "motto": "ZEXN.ai - bilim uchun kelajak",
+    "features": {
+      "fast": {
+        "title": "Aniqroq",
+        "sub": "Xato ildizi"
+      },
+      "smart": {
+        "title": "Aqlli",
+        "sub": "Raqamli egizak"
+      },
+      "wide": {
+        "title": "Shaxsiy",
+        "sub": "Har o'quvchiga yo'l"
+      }
+    }
   },
   "hero": {
     "brandName": "ZEXN",
     "brandDot": ".ai",
-    "headline": "Har bir o'quvchining bilimdagi bo'shliqlarini aniqlab, unga mos keyingi qadamni avtomatik belgilaydigan AI platforma.",
+    "headline": "Har bir o'quvchining raqamli egizagi (SDT): bilimdagi bo'shliqni skill darajasida aniqlab, unga mos keyingi qadamni avtomatik beradigan AI platforma.",
     "stat1Num": "30",
     "stat1LabelLine1": "o'quvchi",
     "stat1LabelLine2": "bitta sinf",
     "stat2Num": "1",
     "stat2LabelLine1": "shaxsiy",
     "stat2LabelLine2": "yo'l",
-    "bannerPill": "AI Learning Platform",
+    "bannerPill": "Student Digital Twin",
     "bannerTitleLine1": "Bir sinf.",
     "bannerTitleLine2": "O'ttiz xil yo'l.",
     "bannerTitle": "Bir sinf. O'ttiz xil yo'l.",
     "bannerDesc": "ZEXN xatoning sababini topadi va aynan shuni tuzatadigan keyingi qadamni beradi.",
-    "bannerPilot": "Birinchi pilot: IT Park Shovot",
+    "bannerPilot": "Birinchi pilot: IT Park Xorazm",
     "title": "Bir sinf. O'ttiz xil yo'l.",
     "subtitle": "ZEXN har o'quvchining xatosi ildizini topadi va aynan shuni tuzatadigan keyingi qadamni beradi.",
     "ctaPrimary": "Hoziroq boshlash",
     "ctaSecondary": "Platforma haqida",
-    "mock": {
-      "title": "Bilim xaritasi tahlili",
-      "topic1": "HTML va CSS asoslari",
-      "status1": "O'zlashtirilgan",
-      "topic2": "JavaScript event loop",
-      "status2": "O'rganilmoqda",
-      "topic3": "React render optimallash",
-      "status3": "Bo'shliq aniqlandi",
-      "topic4": "Next.js arxitekturasi",
-      "status4": "Qulflangan"
+    "sdtTitle": "SDT - o'quvchining raqamli egizagi",
+    "sdtDesc": "Har test va vazifadan keyin yangilanadi: kuchli va zaif skill'lar, takrorlanayotgan xato patternlar, ishonch darajasi va keyingi qadam - bir kartada.",
+    "twin": {
+      "name": "Namur",
+      "level": "React Beginner",
+      "skills": {
+        "jsx": "JSX",
+        "props": "Props",
+        "state": "State immutability"
+      },
+      "pattern": "Direct state mutation",
+      "patternSub": "3 marta aniqlandi - State skilliga ta'sir qilmoqda",
+      "nextLabel": "ZEXN tavsiyasi",
+      "next": "State immutability bo'yicha 5-10 daqiqalik maqsadli vazifa"
     }
   },
   "problem": {
@@ -46,45 +72,83 @@
     "title": "An'anaviy ta'limdagi yashirin to'siqlar",
     "subtitle": "Standart test tizimlari o'quvchining haqiqiy tushunish darajasini aniqlay olmaydi.",
     "card1Title": "Bir xil ball, har xil sabab",
-    "card1Desc": "Ikki o'quvchi bir xil 60 ball olsa-da, birida asoslar, ikkinchisida esa mantiqiy tushunchalarda bo'shliq bo'ladi.",
+    "card1Desc": "Ikki o'quvchi bir xil 60 ball olsa-da, birida asoslar, ikkinchisida mantiqiy tushunchalarda bo'shliq bo'ladi.",
     "card2Title": "O'qituvchiga 30 kishini tahlil qilishga vaqt yo'q",
     "card2Desc": "Guruhdagi har bir o'quvchining xato sabablarini birma-bir chuqur o'rganishga jismonan ulgurib bo'lmaydi.",
-    "card3Title": "LMS ballni ko'rsatadi, sababni emas",
+    "card3Title": "Standart tizimlar xato ildizini topmaydi",
     "card3Desc": "Mavjud platformalar faqat qaysi savol xatoligini aytadi, lekin xatoning asl tub ildizini ochib bermaydi."
   },
-  "howItWorks": {
-    "badge": "Qanday ishlaydi",
-    "title": "Bo'shliqlarni bartaraf etish mexanizmi",
-    "subtitle": "Algoritmlar va sun'iy intellekt yordamida uzluksiz o'quv zanjiri.",
-    "step1Title": "1. Diagnostik test",
-    "step1Desc": "O'quvchi mavzular bo'yicha moslashuvchan test topshiradi.",
-    "step2Title": "2. Bilim xaritasi",
-    "step2Desc": "Tizim o'quvchining kuchli va zaif nuqtalarini vizual ko'rsatadi.",
-    "step3Title": "3. Xato ildizi tahlili",
-    "step3Desc": "Algoritm xato sababini o'tmishdagi qaysi mavzuga borib taqalishini topadi.",
-    "step4Title": "4. Shaxsiy keyingi qadam",
-    "step4Desc": "AI mentor aynan shu bo'shliqni yopish uchun aniq mini-mashq beradi."
+  "sdt": {
+    "badge": "Raqamli egizak",
+    "title": "Har o'quvchining raqamli egizagi (SDT)",
+    "subtitle": "Har bir topshiriq va yechim natijasida o'quvchining bilim profili doimiy yangilanib boradi.",
+    "previewBadge": "Jonli profil namunasi",
+    "studentRole": "Frontend o'quvchisi",
+    "skillsHeader": "Aniqlangan ko'nikmalar",
+    "skill1Name": "JavaScript Asoslari",
+    "skill1Status": "Kuchli",
+    "skill2Name": "Asinxron JavaScript (Promises)",
+    "skill2Status": "Rivojlanmoqda",
+    "skill3Name": "State Mutatsiyasi va Immutability",
+    "skill3Status": "Zaif",
+    "patternTitle": "Aniqlangan xato patterni",
+    "patternBadge": "Anti-pattern: To'g'ridan-to'g'ri state o'zgartirish",
+    "recommendationCardTitle": "ZEXN tavsiyasi",
+    "recommendationCardDesc": "Immutability qoidalari bo'yicha 1 ta mini-dars va 2 ta kod tuzatish mashqi tayinlandi.",
+    "feature1Title": "Haqiqiy bilim darajasi",
+    "feature1Desc": "Yodlangan javoblar emas, kod yozish va muammoni yechish jarayonidagi real ko'nikmalar aks etadi.",
+    "feature2Title": "Ildiz sabab tahlili",
+    "feature2Desc": "Tizim murakkab mavzulardagi xatolar qaysi fundamental mavzuga borib taqalishini aniqlaydi.",
+    "feature3Title": "Avtomatik yangilanish",
+    "feature3Desc": "Har bir yangi topshiriq yechilgach, raqamli egizak ko'rsatkichlari qayta hisoblanadi."
   },
-  "whoIsItFor": {
+  "closedLoop": {
+    "badge": "Closed Loop",
+    "title": "Uzluksiz o'quv zanjiri (Closed Loop)",
+    "subtitle": "Bo'shliqni aniqlashdan tortib, uni to'liq bartaraf etishgacha bo'lgan 6 qadamli tizim.",
+    "step1Num": "01",
+    "step1Title": "Yechim (Submission)",
+    "step1Desc": "O'quvchi kod yoki topshiriq yechimini platformaga yuklaydi.",
+    "step2Num": "02",
+    "step2Title": "AI tahlil",
+    "step2Desc": "Sun'iy intellekt kod arxitekturasi va mantiqiy zanjirni chuqur tekshiradi.",
+    "step3Num": "03",
+    "step3Title": "Xato pattern",
+    "step3Desc": "Bo'shliqning asl ildizi va takrorlanuvchi xato patterni ajratib olinadi.",
+    "step4Num": "04",
+    "step4Title": "Skill ta'siri",
+    "step4Desc": "Xato o'quvchining raqamli egizagidagi (SDT) tegishli ko'nikma darajasiga ta'sir qiladi.",
+    "step5Num": "05",
+    "step5Title": "Keyingi qadam",
+    "step5Desc": "Bo'shliqni yopish uchun aniq shaxsiy mini-vazifa va tushuntirish beriladi.",
+    "step6Num": "06",
+    "step6Title": "Qayta baholash",
+    "step6Desc": "Yangi vazifa topshirilgach, raqamli egizak yangilanadi va o'quvchi keyingi bosqichga o'tadi."
+  },
+  "audience": {
     "badge": "Kim uchun",
     "title": "O'quv jarayonining barcha ishtirokchilari uchun",
-    "subtitle": "Har bir foydalanuvchi o'z maqsadi sari aniq yo'l xaritasiga ega bo'ladi.",
+    "subtitle": "Har bir rol uchun moslashtirilgan qulay ish qurollari.",
     "studentTitle": "O'quvchi",
-    "studentBenefit1": "O'zining zaif nuqtalarini aniq biladi va vaqtini to'g'ri sarflaydi.",
-    "studentBenefit2": "24/7 ishlaydigan shaxsiy AI mentor yordamida qiyin mavzularni o'zlashtiradi.",
+    "studentBenefit1": "AI mentor va kod review har bir yechimga tezkor yordam beradi.",
+    "studentBenefit2": "Shaxsiy keyingi qadam aynan kerakli bo'shliqni yopishga yo'naltiradi.",
+    "studentBenefit3": "O'z raqamli egizagi orqali real o'sish dinamikasini ko'rib boradi.",
     "teacherTitle": "O'qituvchi",
-    "teacherBenefit1": "Har bir o'quvchining real bilim xaritasini bir zumda ko'radi.",
-    "teacherBenefit2": "Dars rejasini guruhdagi umumiy bo'shliqlarga qarab tezkor moslashtiradi.",
+    "teacherBenefit1": "Sinf ko'rinishi va guruhdagi umumiy bo'shliqlarni bir qarashda ko'radi.",
+    "teacherBenefit2": "Bitta tugma bilan maqsadli vazifa yuboradi va vaqtini tejaydi.",
+    "teacherBenefit3": "Har bir o'quvchining individual raqamli egizagini tahlil qila oladi.",
     "centerTitle": "O'quv markazi",
-    "centerBenefit1": "Bitiruvchilar sifati va kursni tugatish ko'rsatkichi sezilarli darajada oshadi.",
-    "centerBenefit2": "Shaxsiy yondashuv orqali o'quvchilar oqimining saqlanib qolishini ta'minlaydi."
+    "centerBenefit1": "Ko'p filialli tenant boshqaruvi va guruhlar monitoringi.",
+    "centerBenefit2": "O'quvchilar natijalari va o'qituvchilar samaradorligi bo'yicha shaffof hisobotlar.",
+    "centerBenefit3": "Kursni tark etish xavfini erta aniqlash va sifatni kafolatlash."
   },
   "cta": {
-    "title": "Markazingizni ro'yxatdan o'tkazing",
-    "subtitle": "ZEXN platformasi bilan ta'lim sifatini keyingi bosqichga olib chiqing.",
+    "title": "Ta'lim sifatini raqamli egizak bilan oshiring",
+    "subtitle": "ZEXN platformasi bilan markazingiz o'quvchilariga shaxsiy ta'lim traektoriyasini taqdim eting.",
     "button": "Ro'yxatdan o'tish"
   },
   "footer": {
-    "copyright": "Zexn.ai | dilshodxdev"
+    "pilot": "Birinchi pilot: IT Park Xorazm",
+    "copyright": "ZEXN - Barcha huquqlar himoyalangan"
   }
 }

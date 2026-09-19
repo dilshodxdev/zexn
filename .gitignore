@@ -20,5 +20,9 @@ GEMINI.md
 /.agent/
 /docs/agent-log/
 
+# ichki hujjatlar (brieflar, reja) - repoga tushmaydi; faqat AI prompt matni qoladi
+/docs/*
+!/docs/prompts/
+
 # shaxsiy hujjatlar - kod emas, ba'zilari uchinchi shaxslarga tegishli
 /hujjatlar/

@@ -8,3 +8,6 @@ export * from "./EmptyState";
 export * from "./ErrorState";
 export * from "./PageHeader";
 export * from "./StatusDot";
+export * from "./ThemeToggle";
+export * from "./ProgressBar";
+export * from "./ProgressRing";
